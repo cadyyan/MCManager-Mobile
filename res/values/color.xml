@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="Grey">#BDBDBD</color>
+    <color name="h1">#35D124</color>
+    <color name="h2">#9AD124</color>
+    <color name="h3">#D1CE24</color>
+    <color name="background">#5E4B15</color>
+    <color name="Title">#FFFFFF</color>
+    <color name="list_c1">#593D28</color>
+    <color name="list_c2">#976C4A</color>
+    <color name="list_c3">#6C6C6C</color>
+    
+</resources>

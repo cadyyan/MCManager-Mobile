@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/activity_background" >
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/frag_console_header"
+        android:textSize="50sp"
+        android:textColor="@color/h1"
+        android:background="@drawable/text_header"/>
+    
+    <ScrollView 
+        android:id="@+id/fragment_console_console_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        
+        <TextView 
+        android:id="@+id/fragment_console_console"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    </ScrollView>
+    
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/list_c2">
+        
+        <Spinner 
+            android:id="@+id/fragment_console_commands"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        
+        <EditText 
+            android:id="@+id/fragment_console_parameters"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:layout_weight="1"/>
+        
+        <Button 
+            android:id="@+id/fragment_console_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+    		android:text="@string/fragment_console_send"/>
+    </LinearLayout>
+    
+
+</LinearLayout>
