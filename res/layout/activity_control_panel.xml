@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  - DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
  -                    Version 2, December 2004
@@ -13,8 +14,6 @@
  - 
  - 0. You just DO WHAT THE FUCK YOU WANT TO.
 -->
-
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_control_panel_fragment"
