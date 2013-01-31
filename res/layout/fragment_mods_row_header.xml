@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/info__person_border"
+    android:orientation="horizontal" >
+    
+    <TextView 
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.5"
+        android:textSize="30sp"
+        android:text="@string/frag_mods_header_name"/>
+    
+    <TextView 
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.2"
+        android:textSize="30sp"
+        android:text="@string/frag_mods_header_version"/>
+    
+    <TextView 
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.2"
+        android:textSize="30sp"
+        android:text="@string/frag_mods_header_minecraft_version"
+        android:visibility="gone"/>
+    
+    <TextView 
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.1"
+        android:textSize="30sp"
+        android:text="@string/frag_mods_header_update"/>
+    
+
+</LinearLayout>

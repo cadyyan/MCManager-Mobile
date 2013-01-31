@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ - DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ -                    Version 2, December 2004
+ - 
+ - Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ - 
+ - Everyone is permitted to copy and distribute verbatim or modified
+ - copies of this license document, and changing it is allowed as long
+ - as the name is changed.
+ - 
+ -            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ -   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ - 
+ - 0. You just DO WHAT THE FUCK YOU WANT TO.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <ImageView 
+        android:id="@+id/player_row_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"/>
+    
+    <TextView 
+        android:id="@+id/player_row_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6"
+        android:textColor="@color/h2"
+        android:text="@string/app_name"
+        android:textSize="35sp"
+        android:gravity="center_vertical"/>
+    
+    <Button 
+        android:id="@+id/player_row_kick"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:text="@string/player_row_kick"/>
+    <Button
+        android:id="@+id/player_row_ban"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:text="@string/player_row_ban"/>
+    
+
+</LinearLayout>

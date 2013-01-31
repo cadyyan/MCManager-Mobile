@@ -16,18 +16,32 @@
 -->
 <resources>
 
-    <string name="activity_name_server">Server-Activity</string><string name="app_name">MCManager-Mobile</string>
+    <string name="activity_name_server">Server-Activity</string>
+    <string name="app_name">MCManager-Mobile</string>
     <string name="hello_world">Hello world!</string>
-    <string name="menu_switch">Switch Profile</string><string name="menu_profile_settings">Profile Settings</string><string name="menu_global_settings">Global Settings</string>
+    <string name="menu_switch">Switch Profile</string>
+    <string name="menu_profile_settings">Profile Settings</string>
+    <string name="menu_global_settings">Global Settings</string>
     <string name="profile_selector_username">Username:</string>
     <string name="profile_selector_password">Password:</string>
     <string name="profile_selector_address">Server Address:</string>
-    <string name="profile_selector_login">Login</string><string name="fragment_console_send">Send</string>
-    <string name="frag_mods_header">Mod List</string>
+    <string name="profile_selector_login">Login</string>
+    <string name="fragment_console_send">Send</string>
+    <string name="player_row_kick">Kick</string>
+    <string name="player_row_ban">Ban</string>
+    
     <string name="frag_console_header">Console:</string>
     <string name="frag_console_command_header">Commands:</string>
     <string name="frag_info_header">Server:</string>
-    <string name="frag_info_player_header">Players:</string>
+    <string name="frag_info_player_header">Players:</string><string name="frag_mods_header">Mod List</string>
+    <string name="frag_mods_header_name">Name</string>
+    <string name="frag_mods_header_version">Version</string>
+    <string name="frag_mods_header_minecraft_version">Minecraft Version</string>
+    <string name="frag_mods_header_update">Update Available?</string>
+    <string name="player_row_kick_dialog">Do you really want to kick:</string>
+    <string name="player_row_ban_dialog">Do you really want to ban:</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     
     
     

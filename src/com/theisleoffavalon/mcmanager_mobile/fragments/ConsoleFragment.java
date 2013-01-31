@@ -21,7 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mcmanager_mobile.R;
+import com.theisleoffavalon.mcmanager_mobile.R;
 
 public class ConsoleFragment extends Fragment {
 

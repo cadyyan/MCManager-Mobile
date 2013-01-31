@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ - DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ -                    Version 2, December 2004
+ - 
+ - Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ - 
+ - Everyone is permitted to copy and distribute verbatim or modified
+ - copies of this license document, and changing it is allowed as long
+ - as the name is changed.
+ - 
+ -            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ -   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ - 
+ - 0. You just DO WHAT THE FUCK YOU WANT TO.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <TextView 
+        android:id="@+id/mods_name"
+        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:gravity="center_vertical"
+        android:textColor="@color/h2"
+        android:textSize="35sp"/>
+    
+    <TextView 
+        android:id="@+id/mods_mod_version"
+        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center_vertical"
+        android:textColor="@color/h2"
+        android:textSize="35sp"/>
+    
+    <TextView 
+        android:id="@+id/mods_minecraft_version"
+        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:textColor="@color/h2"
+        android:textSize="35sp"/>
+    
+    <TextView 
+        android:id="@+id/mods_update"
+        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center_vertical"
+        android:textColor="@color/h2"
+        android:textSize="35sp"/>
+
+</LinearLayout>

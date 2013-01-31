@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.example.mcmanager_mobile.R;
 import com.theisleoffavalon.mcmanager_mobile.Listener.AppTabListener;
 
 public class ServerActivity extends Activity {

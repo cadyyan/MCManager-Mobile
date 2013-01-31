@@ -15,8 +15,6 @@
 
 package com.theisleoffavalon.mcmanager_mobile;
 
-import com.example.mcmanager_mobile.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

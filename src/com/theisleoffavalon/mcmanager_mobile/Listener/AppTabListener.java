@@ -21,7 +21,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
-import com.example.mcmanager_mobile.R;
+import com.theisleoffavalon.mcmanager_mobile.R;
 import com.theisleoffavalon.mcmanager_mobile.fragments.ConsoleFragment;
 import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
 import com.theisleoffavalon.mcmanager_mobile.fragments.ModsFragment;
