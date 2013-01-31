@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.example.mcmanager_mobile.fragments;
+package com.theisleoffavalon.mcmanager_mobile.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 
 import com.example.mcmanager_mobile.R;
 
-public class ModsFragment extends Fragment {
+public class ConsoleFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class ModsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_mods, null, false);
+		View view = inflater.inflate(R.layout.fragment_console, null, false);
 
 		return view;
 	}

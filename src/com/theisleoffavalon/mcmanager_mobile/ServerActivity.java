@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.example.mcmanager_mobile;
+package com.theisleoffavalon.mcmanager_mobile;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -21,7 +21,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.example.mcmanager_mobile.Listener.AppTabListener;
+import com.example.mcmanager_mobile.R;
+import com.theisleoffavalon.mcmanager_mobile.Listener.AppTabListener;
 
 public class ServerActivity extends Activity {
 

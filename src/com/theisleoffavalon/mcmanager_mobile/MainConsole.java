@@ -13,7 +13,9 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.example.mcmanager_mobile;
+package com.theisleoffavalon.mcmanager_mobile;
+
+import com.example.mcmanager_mobile.R;
 
 import android.app.Activity;
 import android.content.Intent;

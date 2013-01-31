@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.example.mcmanager_mobile.Listener;
+package com.theisleoffavalon.mcmanager_mobile.Listener;
 
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -22,9 +22,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
 import com.example.mcmanager_mobile.R;
-import com.example.mcmanager_mobile.fragments.ConsoleFragment;
-import com.example.mcmanager_mobile.fragments.InfoFragment;
-import com.example.mcmanager_mobile.fragments.ModsFragment;
+import com.theisleoffavalon.mcmanager_mobile.fragments.ConsoleFragment;
+import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
+import com.theisleoffavalon.mcmanager_mobile.fragments.ModsFragment;
 
 public class AppTabListener implements TabListener {
 

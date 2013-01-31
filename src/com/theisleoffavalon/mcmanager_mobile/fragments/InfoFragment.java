@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.example.mcmanager_mobile.fragments;
+package com.theisleoffavalon.mcmanager_mobile.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
