@@ -116,15 +116,16 @@ public class RestClient {
 			JSONObject json = (JSONObject) resp.get("result");
 			Set<String> keys = json.keySet();
 			for (String key : keys) {
-				JSONArray jparams = (JSONArray) json.get(key);
-				JSONArray jparamTypes = (JSONArray) json.get(key);
-				List<String> params = jparams;
-				List<ArgType> paramTypes = new ArrayList<ArgType>();
-				for (Object type : jparamTypes) {
-					paramTypes.add(Command.ArgType
-							.getArgTypeFromString((String) type));
+				JSONObject jcmd = (JSONObject) json.get(key);
+				JSONArray jparams = (JSONArray) jcmd.get("params");
+				JSONArray jparamTypes = (JSONArray) jcmd.get("paramTypes");
+
+				Map<String, ArgType> params = new HashMap<String, ArgType>();
+				for (int i = 0; i < jparams.size(); i++) {
+					params.put((String) jparams.get(i), ArgType
+							.getArgTypeFromString((String) jparamTypes.get(i)));
 				}
-				cmds.add(new Command(key, params, paramTypes));
+				cmds.add(new Command(key, params));
 			}
 		} else {
 			Log.e("RestClient", "Response ID doesn't match!");
@@ -133,9 +134,20 @@ public class RestClient {
 		return cmds;
 	}
 
+	/**
+	 * Executes the given command on the server the RestClient is connected to
+	 * 
+	 * @param cmd
+	 *            The command to execute
+	 * @param params
+	 *            The parameters to pass into the command
+	 * @return A map containing any return values
+	 * @throws IOException
+	 *             If a connection problem occurs
+	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, String> executeCommand(Command cmd, Map params)
-			throws IOException {
+	public Map<String, String> executeCommand(Command cmd,
+			Map<String, Object> params) throws IOException {
 		Map<String, String> ret = new HashMap<String, String>();
 		UUID id = UUID.randomUUID();
 		JSONObject request = cmd.createJSONObject(params);
@@ -160,10 +172,3 @@ public class RestClient {
 		return ret;
 	}
 }
-/*
- * @formatter:off /* This is the JSON Response Example for getCommands {
- * "cmdName" : { "params": ["my", "params", "array"] "paramTypes" :
- * ["INT","STRING","PLAYER"] } "nextCmd" : { "params": ["my", "params", "array"]
- * "paramTypes" : ["INT","STRING","PLAYER"] } }
- */
-/* @formatter:on */

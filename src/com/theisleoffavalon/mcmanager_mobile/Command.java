@@ -3,9 +3,7 @@
  */
 package com.theisleoffavalon.mcmanager_mobile;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -21,13 +19,30 @@ import android.util.Log;
 @SuppressLint("DefaultLocale")
 public class Command {
 
-	private String			name;
-	private List<String>	arguments;
-	private List<ArgType>	argumentTypes;
+	/**
+	 * Name of the command
+	 */
+	private String					name;
+	/**
+	 * The arguments to the command
+	 */
+	private Map<String, ArgType>	arguments;
 
+	/**
+	 * Enum that defines the Type of an argument
+	 * 
+	 * @author henkelj
+	 */
 	public enum ArgType {
 		STRING, INT, PLAYER;
 
+		/**
+		 * Converts a string into an instance of the enuum
+		 * 
+		 * @param sArgType
+		 *            The string to convert
+		 * @return The appropriate argument
+		 */
 		@SuppressLint("DefaultLocale")
 		public static ArgType getArgTypeFromString(String sArgType) {
 			String arg = sArgType.toLowerCase();
@@ -43,34 +58,70 @@ public class Command {
 		}
 	}
 
-	public Command(String name, List<String> arguments,
-			List<ArgType> argumentTypes) {
+	/**
+	 * Default ctor
+	 * 
+	 * @param name
+	 *            Name of the Command
+	 * @param arguments
+	 *            The arguments
+	 */
+	public Command(String name, Map<String, ArgType> arguments) {
 		this.name = name;
-		this.arguments = new LinkedList<String>();
-		Collections.copy(this.arguments, arguments);
-		this.argumentTypes = new LinkedList<ArgType>();
-		Collections.copy(this.argumentTypes, argumentTypes);
+		this.arguments = new HashMap<String, ArgType>();
+		this.arguments.putAll(arguments);
+
 	}
 
 	/**
-	 * Returns a JSONObject with the method and params set
+	 * A JSON representation of this command
 	 * 
-	 * @param A
-	 *            mapping of parameter names to values, while not checked, these
-	 *            should respect the ArgType
-	 * @return A JSON object with the method and params values set
+	 * @param params
+	 *            The parameters to be executed
+	 * @return A JSONObject with method and params set
 	 */
 	@SuppressWarnings("unchecked")
-	public JSONObject createJSONObject(@SuppressWarnings("rawtypes") Map params) {
+	public JSONObject createJSONObject(Map<String, Object> params) {
 		JSONObject json = new JSONObject();
 		JSONObject parameters = new JSONObject();
 		for (Object key : params.keySet()) {
-			parameters.put(key, params.get(key));
+			if (checkParamType((String) key, params.get(key))) {
+				parameters.put(key, params.get(key));
+			} else {
+				throw new IllegalArgumentException("Bad parameter types on "
+						+ key);
+			}
 		}
 		json.put("method", this.name);
 		json.put("params", parameters);
 		Log.d("Command", "Created Command JSON of " + json.toJSONString());
 		return json;
+	}
+
+	/**
+	 * Checks to make sure the value is of the correct type
+	 * 
+	 * @param key
+	 *            The argument name
+	 * @param value
+	 *            The value to be passed in for the argument
+	 * @return True if the value is of the correct type
+	 */
+	private boolean checkParamType(String key, Object value) {
+		boolean ret = false;
+		ArgType expected = this.arguments.get(key);
+		switch (expected) {
+			case STRING:
+			case PLAYER:
+				ret = value instanceof String;
+				break;
+			case INT:
+				ret = value instanceof Integer;
+				break;
+			default:
+				break;
+		}
+		return ret;
 	}
 
 	/**
@@ -91,30 +142,18 @@ public class Command {
 	/**
 	 * @return the arguments
 	 */
-	public List<String> getArguments() {
-		return this.arguments;
+	public Map<String, ArgType> getArguments() {
+		Map<String, ArgType> map = new HashMap<String, ArgType>();
+		map.putAll(this.arguments);
+		return map;
 	}
 
 	/**
 	 * @param arguments
 	 *            the arguments to set
 	 */
-	public void setArguments(List<String> arguments) {
-		this.arguments = arguments;
+	public void setArguments(Map<String, ArgType> arguments) {
+		this.arguments.putAll(arguments);
 	}
 
-	/**
-	 * @return the argumentTypes
-	 */
-	public List<ArgType> getArgumentTypes() {
-		return this.argumentTypes;
-	}
-
-	/**
-	 * @param argumentTypes
-	 *            the argumentTypes to set
-	 */
-	public void setArgumentTypes(List<ArgType> argumentTypes) {
-		this.argumentTypes = argumentTypes;
-	}
 }
