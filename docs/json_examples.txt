@@ -1,0 +1,11 @@
+This is the JSON Response Example for getCommands
+{
+	"cmdName" : {
+		"params"     : ["my", "params", "array"] 
+		"paramTypes" : ["INT","STRING","PLAYER"]
+	}
+	"nextCmd" : {
+		"params"     : ["my", "params", "array"]
+		"paramTypes" : ["INT","STRING","PLAYER"] 
+	} 
+}
