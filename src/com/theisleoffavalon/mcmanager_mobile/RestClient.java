@@ -61,6 +61,13 @@ public class RestClient {
 						this.rootUrl.toExternalForm()));
 	}
 
+	/**
+	 * Sends a JSONRPC request
+	 * 
+	 * @param request
+	 *            The request to send
+	 * @return The response
+	 */
 	private JSONObject sendJSONRPC(JSONObject request) {
 		JSONObject ret = null;
 
@@ -95,43 +102,98 @@ public class RestClient {
 		return ret;
 	}
 
+	/**
+	 * Creates a JSONRPC Object with required fileds besides parameters set
+	 * 
+	 * @param method
+	 *            The method called
+	 * @return The object
+	 */
 	@SuppressWarnings("unchecked")
-	public List<Command> getAllCommands() throws IOException {
-		List<Command> cmds = new ArrayList<Command>();
+	public JSONObject createJSONRPCObject(String method) {
 		UUID id = UUID.randomUUID();
 		JSONObject request = new JSONObject();
 		request.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
-		request.put("method", "getAllCommands");
+		request.put("method", method);
 		request.put("id", id.toString());
+		return request;
+	}
 
-		JSONObject resp = sendJSONRPC(request);
-		if ((resp == null) || (resp.get("error") != null)) {
+	/**
+	 * Checks the response for errors
+	 * 
+	 * @param response
+	 *            The response
+	 * @param request
+	 *            The request sent for the response
+	 * @throws IOException
+	 *             If an error is encountered
+	 */
+	public void checkJSONResponse(JSONObject response, JSONObject request)
+			throws IOException {
+		if ((response == null) || (response.get("error") != null)) {
 			Log.e("RestClient",
 					String.format(
 							"An error was encountered with the code %d with the message %s",
-							resp.get("code"), resp.get("message")));
-			throw new IOException("Invalid resp from server");
+							response.get("code"), response.get("message")));
+			throw new IOException("Invalid response from server");
 		}
-		if (resp.get("id").equals(id.toString())) {
-			JSONObject json = (JSONObject) resp.get("result");
-			Set<String> keys = json.keySet();
-			for (String key : keys) {
-				JSONObject jcmd = (JSONObject) json.get(key);
-				JSONArray jparams = (JSONArray) jcmd.get("params");
-				JSONArray jparamTypes = (JSONArray) jcmd.get("paramTypes");
-
-				Map<String, ArgType> params = new HashMap<String, ArgType>();
-				for (int i = 0; i < jparams.size(); i++) {
-					params.put((String) jparams.get(i), ArgType
-							.getArgTypeFromString((String) jparamTypes.get(i)));
-				}
-				cmds.add(new Command(key, params));
-			}
-		} else {
+		if (!response.get("id").equals(request.get("id"))) {
 			Log.e("RestClient", "Response ID doesn't match!");
 			throw new IOException("Got the wrong id on response");
 		}
+	}
+
+	/**
+	 * Gets all available commands on the server
+	 * 
+	 * @return A list of commands
+	 * @throws IOException
+	 *             If an error is encountered
+	 */
+	public List<Command> getAllCommands() throws IOException {
+		List<Command> cmds = new ArrayList<Command>();
+		JSONObject request = createJSONRPCObject("getAllCommands");
+		JSONObject resp = sendJSONRPC(request);
+		checkJSONResponse(resp, request);
+
+		// Parse result
+		JSONObject json = (JSONObject) resp.get("result");
+		Set<String> keys = json.keySet();
+		for (String key : keys) {
+			JSONObject jcmd = (JSONObject) json.get(key);
+			JSONArray jparams = (JSONArray) jcmd.get("params");
+			JSONArray jparamTypes = (JSONArray) jcmd.get("paramTypes");
+			Map<String, ArgType> params = new HashMap<String, ArgType>();
+			for (int i = 0; i < jparams.size(); i++) {
+				params.put((String) jparams.get(i), ArgType
+						.getArgTypeFromString((String) jparamTypes.get(i)));
+			}
+			cmds.add(new Command(key, params));
+		}
 		return cmds;
+	}
+
+	/**
+	 * Gets information about the server
+	 * 
+	 * @return A map containing information about the server
+	 * @throws IOException
+	 *             If a connection problem occurs
+	 */
+	public Map<String, String> getServerInfo() throws IOException {
+		Map<String, String> ret = new HashMap<String, String>();
+		// Create request
+		JSONObject request = createJSONRPCObject("systemInfo");
+		// Send request
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+
+		// Parse response
+		JSONObject json = (JSONObject) response.get("result");
+		ret.putAll(json);
+
+		return ret;
 	}
 
 	/**
@@ -149,26 +211,18 @@ public class RestClient {
 	public Map<String, String> executeCommand(Command cmd,
 			Map<String, Object> params) throws IOException {
 		Map<String, String> ret = new HashMap<String, String>();
-		UUID id = UUID.randomUUID();
-		JSONObject request = cmd.createJSONObject(params);
-		request.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
-		request.put("id", id.toString());
 
+		// Create request
+		JSONObject request = cmd.createJSONObject(params);
+		// Send request
 		JSONObject response = sendJSONRPC(request);
-		if ((response == null) || (response.get("error") != null)) {
-			Log.e("RestClient",
-					String.format(
-							"An error was encountered with the code %d with the message %s",
-							response.get("code"), response.get("message")));
-			throw new IOException("Invalid resp from server");
-		}
-		if (response.get("id").equals(id.toString())) {
-			JSONObject json = (JSONObject) response.get("result");
-			ret.putAll(json);
-		} else {
-			Log.e("RestClient", "Response ID doesn't match!");
-			throw new IOException("Got the wrong id on response");
-		}
+		checkJSONResponse(response, request);
+
+		// Parse response
+		JSONObject json = (JSONObject) response.get("result");
+		ret.putAll(json);
+
 		return ret;
 	}
+
 }

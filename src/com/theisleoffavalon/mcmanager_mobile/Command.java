@@ -74,11 +74,11 @@ public class Command {
 	}
 
 	/**
-	 * A JSON representation of this command
+	 * A JSON RPC version of this command
 	 * 
 	 * @param params
 	 *            The parameters to be executed
-	 * @return A JSONObject with method and params set
+	 * @return A JSONObject with the JSON RPC values set
 	 */
 	@SuppressWarnings("unchecked")
 	public JSONObject createJSONObject(Map<String, Object> params) {
@@ -92,8 +92,13 @@ public class Command {
 						+ key);
 			}
 		}
+		UUID id = UUID.randomUUID();
+		
+		json.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
+		json.put("id", id.toString());
 		json.put("method", this.name);
 		json.put("params", parameters);
+		
 		Log.d("Command", "Created Command JSON of " + json.toJSONString());
 		return json;
 	}
