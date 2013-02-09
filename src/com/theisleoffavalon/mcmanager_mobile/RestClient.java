@@ -25,7 +25,7 @@ import org.json.simple.parser.ParseException;
 
 import android.util.Log;
 
-import com.theisleoffavalon.mcmanager_mobile.Command.ArgType;
+import com.theisleoffavalon.mcmanager_mobile.RPCCommand.ArgType;
 
 /**
  * This class handles talking to the server
@@ -151,8 +151,8 @@ public class RestClient {
 	 * @throws IOException
 	 *             If an error is encountered
 	 */
-	public List<Command> getAllCommands() throws IOException {
-		List<Command> cmds = new ArrayList<Command>();
+	public List<RPCCommand> getAllCommands() throws IOException {
+		List<RPCCommand> cmds = new ArrayList<RPCCommand>();
 		JSONObject request = createJSONRPCObject("getAllCommands");
 		JSONObject resp = sendJSONRPC(request);
 		checkJSONResponse(resp, request);
@@ -169,7 +169,7 @@ public class RestClient {
 				params.put((String) jparams.get(i), ArgType
 						.getArgTypeFromString((String) jparamTypes.get(i)));
 			}
-			cmds.add(new Command(key, params));
+			cmds.add(new RPCCommand(key, params));
 		}
 		return cmds;
 	}
@@ -208,7 +208,7 @@ public class RestClient {
 	 *             If a connection problem occurs
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, String> executeCommand(Command cmd,
+	public Map<String, String> executeCommand(RPCCommand cmd,
 			Map<String, Object> params) throws IOException {
 		Map<String, String> ret = new HashMap<String, String>();
 
