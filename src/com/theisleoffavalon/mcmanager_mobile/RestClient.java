@@ -83,7 +83,7 @@ public class RestClient {
 			request.writeJSONString(osw);
 			osw.close();
 
-			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				InputStreamReader isr = new InputStreamReader(
 						new BufferedInputStream(conn.getInputStream()));
 				ret = (JSONObject) new JSONParser().parse(isr);
@@ -110,7 +110,7 @@ public class RestClient {
 	 * @return The object
 	 */
 	@SuppressWarnings("unchecked")
-	public JSONObject createJSONRPCObject(String method) {
+	private JSONObject createJSONRPCObject(String method) {
 		UUID id = UUID.randomUUID();
 		JSONObject request = new JSONObject();
 		request.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
@@ -129,7 +129,7 @@ public class RestClient {
 	 * @throws IOException
 	 *             If an error is encountered
 	 */
-	public void checkJSONResponse(JSONObject response, JSONObject request)
+	private void checkJSONResponse(JSONObject response, JSONObject request)
 			throws IOException {
 		if ((response == null) || (response.get("error") != null)) {
 			Log.e("RestClient",
@@ -159,8 +159,9 @@ public class RestClient {
 
 		// Parse result
 		JSONObject json = (JSONObject) resp.get("result");
-		Set<String> keys = json.keySet();
-		for (String key : keys) {
+		@SuppressWarnings("rawtypes")
+		Set keys = json.keySet();
+		for (Object key : keys) {
 			JSONObject jcmd = (JSONObject) json.get(key);
 			JSONArray jparams = (JSONArray) jcmd.get("params");
 			JSONArray jparamTypes = (JSONArray) jcmd.get("paramTypes");
@@ -169,7 +170,7 @@ public class RestClient {
 				params.put((String) jparams.get(i), ArgType
 						.getArgTypeFromString((String) jparamTypes.get(i)));
 			}
-			cmds.add(new RPCCommand(key, params));
+			cmds.add(new RPCCommand((String) key, params));
 		}
 		return cmds;
 	}
@@ -181,6 +182,7 @@ public class RestClient {
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
+	@SuppressWarnings("unchecked")
 	public Map<String, String> getServerInfo() throws IOException {
 		Map<String, String> ret = new HashMap<String, String>();
 		// Create request
