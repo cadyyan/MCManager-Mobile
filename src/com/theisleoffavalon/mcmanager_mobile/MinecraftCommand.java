@@ -18,7 +18,7 @@ import android.util.Log;
  * @author Jacob Henkel
  */
 @SuppressLint("DefaultLocale")
-public class RPCCommand {
+public class MinecraftCommand {
 
 	/**
 	 * Name of the command
@@ -67,7 +67,7 @@ public class RPCCommand {
 	 * @param arguments
 	 *            The arguments
 	 */
-	public RPCCommand(String name, Map<String, ArgType> arguments) {
+	public MinecraftCommand(String name, Map<String, ArgType> arguments) {
 		this.name = name;
 		this.arguments = new HashMap<String, ArgType>();
 		this.arguments.putAll(arguments);

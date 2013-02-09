@@ -25,7 +25,7 @@ import org.json.simple.parser.ParseException;
 
 import android.util.Log;
 
-import com.theisleoffavalon.mcmanager_mobile.RPCCommand.ArgType;
+import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand.ArgType;
 
 /**
  * This class handles talking to the server
@@ -145,14 +145,14 @@ public class RestClient {
 	}
 
 	/**
-	 * Gets all available commands on the server
+	 * Gets all available Minecraft commands on the server
 	 * 
-	 * @return A list of commands
+	 * @return A list of Minecraft commands
 	 * @throws IOException
 	 *             If an error is encountered
 	 */
-	public List<RPCCommand> getAllCommands() throws IOException {
-		List<RPCCommand> cmds = new ArrayList<RPCCommand>();
+	public List<MinecraftCommand> getAllMinecraftCommands() throws IOException {
+		List<MinecraftCommand> cmds = new ArrayList<MinecraftCommand>();
 		JSONObject request = createJSONRPCObject("getAllCommands");
 		JSONObject resp = sendJSONRPC(request);
 		checkJSONResponse(resp, request);
@@ -170,7 +170,7 @@ public class RestClient {
 				params.put((String) jparams.get(i), ArgType
 						.getArgTypeFromString((String) jparamTypes.get(i)));
 			}
-			cmds.add(new RPCCommand((String) key, params));
+			cmds.add(new MinecraftCommand((String) key, params));
 		}
 		return cmds;
 	}
@@ -210,7 +210,7 @@ public class RestClient {
 	 *             If a connection problem occurs
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> executeCommand(RPCCommand cmd,
+	public Map<String, Object> executeCommand(MinecraftCommand cmd,
 			Map<String, Object> params) throws IOException {
 		Map<String, Object> ret = new HashMap<String, Object>();
 
