@@ -183,8 +183,8 @@ public class RestClient {
 	 *             If a connection problem occurs
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, String> getServerInfo() throws IOException {
-		Map<String, String> ret = new HashMap<String, String>();
+	public Map<String, Object> getServerInfo() throws IOException {
+		Map<String, Object> ret = new HashMap<String, Object>();
 		// Create request
 		JSONObject request = createJSONRPCObject("systemInfo");
 		// Send request
@@ -210,9 +210,9 @@ public class RestClient {
 	 *             If a connection problem occurs
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, String> executeCommand(RPCCommand cmd,
+	public Map<String, Object> executeCommand(RPCCommand cmd,
 			Map<String, Object> params) throws IOException {
-		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, Object> ret = new HashMap<String, Object>();
 
 		// Create request
 		JSONObject request = cmd.createJSONObject(params);
