@@ -28,7 +28,24 @@ import android.util.Log;
 import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand.ArgType;
 
 /**
- * This class handles talking to the server
+ * This class handles talking to the server <br />
+ * Many methods in this class return a Map of <String,Object>, this map contains
+ * various different values that were returned from a request as there can be
+ * multiple returns with different return types. The mappings for these are the
+ * ones default from json-simple
+ * 
+ * <pre>
+ * 	JSON		Java
+ * 	string		java.lang.String
+ * 	number		java.lang.Number
+ * 	true|false	java.lang.Boolean
+ * 	null		null
+ * 	array		java.util.List
+ * 	object		java.util.Map
+ * </pre>
+ * 
+ * These return types should be obvious from their names, but checked type
+ * casting should be done.
  * 
  * @author Jacob Henkel
  */
@@ -103,7 +120,7 @@ public class RestClient {
 	}
 
 	/**
-	 * Creates a JSONRPC Object with required fileds besides parameters set
+	 * Creates a JSONRPC Object with required fields besides parameters set
 	 * 
 	 * @param method
 	 *            The method called
@@ -182,7 +199,6 @@ public class RestClient {
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
-	@SuppressWarnings("unchecked")
 	public Map<String, Object> getServerInfo() throws IOException {
 		Map<String, Object> ret = new HashMap<String, Object>();
 		// Create request
@@ -192,7 +208,8 @@ public class RestClient {
 		checkJSONResponse(response, request);
 
 		// Parse response
-		JSONObject json = (JSONObject) response.get("result");
+		@SuppressWarnings("unchecked")
+		Map<String, Object> json = (JSONObject) response.get("params");
 		ret.putAll(json);
 
 		return ret;
@@ -209,7 +226,6 @@ public class RestClient {
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
-	@SuppressWarnings("unchecked")
 	public Map<String, Object> executeCommand(MinecraftCommand cmd,
 			Map<String, Object> params) throws IOException {
 		Map<String, Object> ret = new HashMap<String, Object>();
@@ -221,7 +237,8 @@ public class RestClient {
 		checkJSONResponse(response, request);
 
 		// Parse response
-		JSONObject json = (JSONObject) response.get("result");
+		@SuppressWarnings("unchecked")
+		Map<String, Object> json = (JSONObject) response.get("result");
 		ret.putAll(json);
 
 		return ret;
