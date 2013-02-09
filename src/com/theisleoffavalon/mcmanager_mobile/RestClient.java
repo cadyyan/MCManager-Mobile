@@ -244,4 +244,15 @@ public class RestClient {
 		return ret;
 	}
 
+	/**
+	 * Stops the Minecraft server
+	 * 
+	 * @throws IOException
+	 *             If a connection problem occurs
+	 */
+	public void stopServer() throws IOException {
+		JSONObject request = createJSONRPCObject("stopServer");
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+	}
 }
