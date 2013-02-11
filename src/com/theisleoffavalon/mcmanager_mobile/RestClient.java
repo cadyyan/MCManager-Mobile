@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import org.json.simple.JSONArray;
@@ -175,19 +174,21 @@ public class RestClient {
 		checkJSONResponse(resp, request);
 
 		// Parse result
-		JSONObject json = (JSONObject) resp.get("result");
-		@SuppressWarnings("rawtypes")
-		Set keys = json.keySet();
-		for (Object key : keys) {
-			JSONObject jcmd = (JSONObject) json.get(key);
-			JSONArray jparams = (JSONArray) jcmd.get("params");
-			JSONArray jparamTypes = (JSONArray) jcmd.get("paramTypes");
+		JSONObject result = (JSONObject) resp.get("result");
+		@SuppressWarnings("unchecked")
+		Map<String, JSONObject> commands = (Map<String, JSONObject>) result
+				.get("commands");
+		for (String name : commands.keySet()) {
+			JSONObject paramObj = commands.get(name);
+			JSONArray jparams = (JSONArray) paramObj.get("params");
+			JSONArray jparamTypes = (JSONArray) paramObj.get("paramTypes");
+
 			Map<String, ArgType> params = new HashMap<String, ArgType>();
 			for (int i = 0; i < jparams.size(); i++) {
 				params.put((String) jparams.get(i), ArgType
 						.getArgTypeFromString((String) jparamTypes.get(i)));
 			}
-			cmds.add(new MinecraftCommand((String) key, params));
+			cmds.add(new MinecraftCommand(name, params));
 		}
 		return cmds;
 	}
@@ -209,7 +210,7 @@ public class RestClient {
 
 		// Parse response
 		@SuppressWarnings("unchecked")
-		Map<String, Object> json = (JSONObject) response.get("params");
+		Map<String, Object> json = (JSONObject) response.get("result");
 		ret.putAll(json);
 
 		return ret;
@@ -280,5 +281,23 @@ public class RestClient {
 		JSONObject request = createJSONRPCObject("stopServer");
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
+	}
+
+	/**
+	 * Gets a list of all methods on the server's JSON-RPC service
+	 * 
+	 * @return A list of methods
+	 * @throws IOException
+	 *             If a connection problem occurs
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> getAllMethods() throws IOException {
+		JSONObject request = createJSONRPCObject("getAllMethods");
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+
+		// Parse response
+		JSONObject json = (JSONObject) response.get("result");
+		return (List<String>) json.get("methods");
 	}
 }
