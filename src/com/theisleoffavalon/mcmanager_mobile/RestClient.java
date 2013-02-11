@@ -245,6 +245,32 @@ public class RestClient {
 	}
 
 	/**
+	 * This method gets a list of all mods and their versions that are currently
+	 * on the Minecraft server
+	 * 
+	 * @return A list of mods
+	 * @throws IOException
+	 *             If a connection problem occurs
+	 */
+	public List<MinecraftMod> getServerMods() throws IOException {
+		List<MinecraftMod> mods = new ArrayList<MinecraftMod>();
+
+		JSONObject request = createJSONRPCObject("getMods");
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+
+		JSONObject result = (JSONObject) response.get("result");
+		@SuppressWarnings("unchecked")
+		List<JSONObject> modlist = (List<JSONObject>) result.get("mods");
+		for (Map<String, String> m : modlist) {
+			mods.add(new MinecraftMod(m.get("name"), m.get("version")));
+		}
+
+		return mods;
+
+	}
+
+	/**
 	 * Stops the Minecraft server
 	 * 
 	 * @throws IOException
