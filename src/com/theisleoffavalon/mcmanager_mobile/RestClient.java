@@ -25,10 +25,27 @@ import org.json.simple.parser.ParseException;
 
 import android.util.Log;
 
-import com.theisleoffavalon.mcmanager_mobile.Command.ArgType;
+import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand.ArgType;
 
 /**
- * This class handles talking to the server
+ * This class handles talking to the server <br />
+ * Many methods in this class return a Map of <String,Object>, this map contains
+ * various different values that were returned from a request as there can be
+ * multiple returns with different return types. The mappings for these are the
+ * ones default from json-simple
+ * 
+ * <pre>
+ * 	JSON		Java
+ * 	string		java.lang.String
+ * 	number		java.lang.Number
+ * 	true|false	java.lang.Boolean
+ * 	null		null
+ * 	array		java.util.List
+ * 	object		java.util.Map
+ * </pre>
+ * 
+ * These return types should be obvious from their names, but checked type
+ * casting should be done.
  * 
  * @author Jacob Henkel
  */
@@ -83,7 +100,7 @@ public class RestClient {
 			request.writeJSONString(osw);
 			osw.close();
 
-			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				InputStreamReader isr = new InputStreamReader(
 						new BufferedInputStream(conn.getInputStream()));
 				ret = (JSONObject) new JSONParser().parse(isr);
@@ -103,7 +120,7 @@ public class RestClient {
 	}
 
 	/**
-	 * Creates a JSONRPC Object with required fileds besides parameters set
+	 * Creates a JSONRPC Object with required fields besides parameters set
 	 * 
 	 * @param method
 	 *            The method called
@@ -145,22 +162,23 @@ public class RestClient {
 	}
 
 	/**
-	 * Gets all available commands on the server
+	 * Gets all available Minecraft commands on the server
 	 * 
-	 * @return A list of commands
+	 * @return A list of Minecraft commands
 	 * @throws IOException
 	 *             If an error is encountered
 	 */
-	public List<Command> getAllCommands() throws IOException {
-		List<Command> cmds = new ArrayList<Command>();
+	public List<MinecraftCommand> getAllMinecraftCommands() throws IOException {
+		List<MinecraftCommand> cmds = new ArrayList<MinecraftCommand>();
 		JSONObject request = createJSONRPCObject("getAllCommands");
 		JSONObject resp = sendJSONRPC(request);
 		checkJSONResponse(resp, request);
 
 		// Parse result
 		JSONObject json = (JSONObject) resp.get("result");
-		Set<String> keys = json.keySet();
-		for (String key : keys) {
+		@SuppressWarnings("rawtypes")
+		Set keys = json.keySet();
+		for (Object key : keys) {
 			JSONObject jcmd = (JSONObject) json.get(key);
 			JSONArray jparams = (JSONArray) jcmd.get("params");
 			JSONArray jparamTypes = (JSONArray) jcmd.get("paramTypes");
@@ -169,7 +187,7 @@ public class RestClient {
 				params.put((String) jparams.get(i), ArgType
 						.getArgTypeFromString((String) jparamTypes.get(i)));
 			}
-			cmds.add(new Command(key, params));
+			cmds.add(new MinecraftCommand((String) key, params));
 		}
 		return cmds;
 	}
@@ -181,8 +199,8 @@ public class RestClient {
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
-	public Map<String, String> getServerInfo() throws IOException {
-		Map<String, String> ret = new HashMap<String, String>();
+	public Map<String, Object> getServerInfo() throws IOException {
+		Map<String, Object> ret = new HashMap<String, Object>();
 		// Create request
 		JSONObject request = createJSONRPCObject("systemInfo");
 		// Send request
@@ -190,7 +208,8 @@ public class RestClient {
 		checkJSONResponse(response, request);
 
 		// Parse response
-		JSONObject json = (JSONObject) response.get("result");
+		@SuppressWarnings("unchecked")
+		Map<String, Object> json = (JSONObject) response.get("params");
 		ret.putAll(json);
 
 		return ret;
@@ -207,10 +226,9 @@ public class RestClient {
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
-	@SuppressWarnings("unchecked")
-	public Map<String, String> executeCommand(Command cmd,
+	public Map<String, Object> executeCommand(MinecraftCommand cmd,
 			Map<String, Object> params) throws IOException {
-		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, Object> ret = new HashMap<String, Object>();
 
 		// Create request
 		JSONObject request = cmd.createJSONObject(params);
@@ -219,10 +237,22 @@ public class RestClient {
 		checkJSONResponse(response, request);
 
 		// Parse response
-		JSONObject json = (JSONObject) response.get("result");
+		@SuppressWarnings("unchecked")
+		Map<String, Object> json = (JSONObject) response.get("result");
 		ret.putAll(json);
 
 		return ret;
 	}
 
+	/**
+	 * Stops the Minecraft server
+	 * 
+	 * @throws IOException
+	 *             If a connection problem occurs
+	 */
+	public void stopServer() throws IOException {
+		JSONObject request = createJSONRPCObject("stopServer");
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+	}
 }
