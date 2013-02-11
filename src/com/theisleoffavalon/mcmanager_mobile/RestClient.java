@@ -110,7 +110,7 @@ public class RestClient {
 	 * @return The object
 	 */
 	@SuppressWarnings("unchecked")
-	public JSONObject createJSONRPCObject(String method) {
+	private JSONObject createJSONRPCObject(String method) {
 		UUID id = UUID.randomUUID();
 		JSONObject request = new JSONObject();
 		request.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
@@ -129,7 +129,7 @@ public class RestClient {
 	 * @throws IOException
 	 *             If an error is encountered
 	 */
-	public void checkJSONResponse(JSONObject response, JSONObject request)
+	private void checkJSONResponse(JSONObject response, JSONObject request)
 			throws IOException {
 		if ((response == null) || (response.get("error") != null)) {
 			Log.e("RestClient",

@@ -5,6 +5,7 @@ package com.theisleoffavalon.mcmanager_mobile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.json.simple.JSONObject;
 
@@ -93,12 +94,12 @@ public class Command {
 			}
 		}
 		UUID id = UUID.randomUUID();
-		
+
 		json.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
 		json.put("id", id.toString());
 		json.put("method", this.name);
 		json.put("params", parameters);
-		
+
 		Log.d("Command", "Created Command JSON of " + json.toJSONString());
 		return json;
 	}

@@ -15,6 +15,8 @@
 
 package com.theisleoffavalon.mcmanager_mobile;
 
+import java.net.MalformedURLException;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -25,10 +27,20 @@ import com.theisleoffavalon.mcmanager_mobile.Listener.AppTabListener;
 
 public class ServerActivity extends Activity {
 
+	protected RestClient	rc;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_control_panel);
+
+		try {
+			this.rc = new RestClient("http", getIntent().getExtras().getString(
+					"address"), 1716, "");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		ActionBar abar = getActionBar();
 		abar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -53,6 +65,10 @@ public class ServerActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_control_panel, menu);
 		return true;
+	}
+
+	public RestClient getRc() {
+		return this.rc;
 	}
 
 }

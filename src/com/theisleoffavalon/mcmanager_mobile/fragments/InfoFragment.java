@@ -15,17 +15,24 @@
 
 package com.theisleoffavalon.mcmanager_mobile.fragments;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.theisleoffavalon.mcmanager_mobile.R;
+import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
 import com.theisleoffavalon.mcmanager_mobile.adapters.Player_Adapter;
 import com.theisleoffavalon.mcmanager_mobile.datatypes.Player;
 
@@ -45,8 +52,15 @@ public class InfoFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_info, null, false);
 
+		TextView servername = (TextView) view
+				.findViewById(R.id.frag_info_server_name);
+		TextView uptime = (TextView) view.findViewById(R.id.frag_info_uptime);
+
 		ListView playerListView = (ListView) view
 				.findViewById(R.id.player_list);
+		servername.setText("Test Server");
+
+		new AsyncGetInfoTask().execute(getActivity());
 
 		if (this.playerList == null) {
 			this.playerList = new ArrayList<Player>();
@@ -63,4 +77,43 @@ public class InfoFragment extends Fragment {
 		return view;
 	}
 
+	private List<Player> parseList(String stringList) {
+		List<Player> temp = new ArrayList<Player>();
+		Scanner scan = new Scanner(stringList);
+		scan.useDelimiter(",");
+
+		while (scan.hasNext()) {
+			temp.add(new Player(scan.next(), "", null));
+		}
+
+		return temp;
+	}
+
+	public class AsyncGetInfoTask extends
+			AsyncTask<Activity, Void, Map<String, String>> {
+
+		@Override
+		protected Map<String, String> doInBackground(Activity... activity) {
+			Activity act = activity[0];
+			Map<String, String> serverInfo = null;
+			try {
+				serverInfo = ((ServerActivity) getActivity()).getRc()
+						.getServerInfo();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return serverInfo;
+		}
+
+		@Override
+		protected void onPostExecute(Map<String, String> serverInfo) {
+			((TextView) getView().findViewById(R.id.frag_info_uptime))
+					.setText(serverInfo.get("uptime"));
+			InfoFragment.this.playerList = parseList(serverInfo.get("players"));
+			InfoFragment.this.pa.notifyDataSetChanged();
+			// Toast.makeText(getBaseContext(), result,
+			// Toast.LENGTH_LONG).show();
+		}
+	}
 }
