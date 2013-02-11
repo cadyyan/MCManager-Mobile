@@ -209,7 +209,7 @@ public class RestClient {
 
 		// Parse response
 		@SuppressWarnings("unchecked")
-		Map<String, Object> json = (JSONObject) response.get("params");
+		Map<String, Object> json = (JSONObject) response.get("result");
 		ret.putAll(json);
 
 		return ret;

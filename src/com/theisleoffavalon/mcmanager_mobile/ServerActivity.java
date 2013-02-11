@@ -36,7 +36,7 @@ public class ServerActivity extends Activity {
 
 		try {
 			this.rc = new RestClient("http", getIntent().getExtras().getString(
-					"address"), 1716, "");
+					"address"), 1716, "/rpc");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

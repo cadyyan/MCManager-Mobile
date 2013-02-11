@@ -19,12 +19,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +32,15 @@ import android.widget.TextView;
 
 import com.theisleoffavalon.mcmanager_mobile.R;
 import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
-import com.theisleoffavalon.mcmanager_mobile.adapters.Player_Adapter;
+import com.theisleoffavalon.mcmanager_mobile.adapters.PlayerAdapter;
 import com.theisleoffavalon.mcmanager_mobile.datatypes.Player;
+import com.theisleoffavalon.mcmanager_mobile.helpers.Convert;
 
 public class InfoFragment extends Fragment {
 
 	private List<Player>	playerList;
 
-	private Player_Adapter	pa;
+	private PlayerAdapter	pa;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,6 @@ public class InfoFragment extends Fragment {
 				.findViewById(R.id.player_list);
 		servername.setText("Test Server");
 
-		new AsyncGetInfoTask().execute(getActivity());
-
 		if (this.playerList == null) {
 			this.playerList = new ArrayList<Player>();
 			this.playerList.add(new Player("Terminator", "155.92.13.12", null));
@@ -71,49 +69,56 @@ public class InfoFragment extends Fragment {
 			this.playerList.add(new Player("Ooops", "0.0.0.0", null));
 		}
 
-		this.pa = new Player_Adapter(getActivity(), this.playerList);
+		this.pa = new PlayerAdapter(getActivity(), this.playerList);
 		playerListView.setAdapter(this.pa);
+
+		new AsyncGetInfoTask().execute();
 
 		return view;
 	}
 
-	private List<Player> parseList(String stringList) {
+	private List<Player> parseList(List<String> stringList) {
 		List<Player> temp = new ArrayList<Player>();
-		Scanner scan = new Scanner(stringList);
-		scan.useDelimiter(",");
-
-		while (scan.hasNext()) {
-			temp.add(new Player(scan.next(), "", null));
+		for (String t : stringList) {
+			temp.add(new Player(t, null, null));
 		}
 
 		return temp;
 	}
 
 	public class AsyncGetInfoTask extends
-			AsyncTask<Activity, Void, Map<String, String>> {
+			AsyncTask<Void, Map<String, Object>, Void> {
 
+		@SuppressWarnings("unchecked")
 		@Override
-		protected Map<String, String> doInBackground(Activity... activity) {
-			Activity act = activity[0];
-			Map<String, String> serverInfo = null;
+		protected Void doInBackground(Void... Void) {
+			Log.d("AsyncGetInfoTask", "doInBackground");
+			Map<String, Object> serverInfo = null;
 			try {
 				serverInfo = ((ServerActivity) getActivity()).getRc()
 						.getServerInfo();
+
+				publishProgress(serverInfo);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return serverInfo;
+			return null;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
-		protected void onPostExecute(Map<String, String> serverInfo) {
+		protected void onProgressUpdate(Map<String, Object>... serverInfo) {
 			((TextView) getView().findViewById(R.id.frag_info_uptime))
-					.setText(serverInfo.get("uptime"));
-			InfoFragment.this.playerList = parseList(serverInfo.get("players"));
-			InfoFragment.this.pa.notifyDataSetChanged();
+					.setText(Convert.formatTime(((Long) serverInfo[0]
+							.get("uptime"))));
+			InfoFragment.this.playerList = parseList((List<String>) serverInfo[0]
+					.get("players"));
+			Log.d("PostExecute", serverInfo.toString());
+			InfoFragment.this.pa.notifyDataSetInvalidated();
 			// Toast.makeText(getBaseContext(), result,
 			// Toast.LENGTH_LONG).show();
+
 		}
 	}
 }
