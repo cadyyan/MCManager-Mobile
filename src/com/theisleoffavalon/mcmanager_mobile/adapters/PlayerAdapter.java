@@ -17,11 +17,11 @@ import android.widget.TextView;
 import com.theisleoffavalon.mcmanager_mobile.R;
 import com.theisleoffavalon.mcmanager_mobile.datatypes.Player;
 
-public class Player_Adapter extends ArrayAdapter<Player> {
+public class PlayerAdapter extends ArrayAdapter<Player> {
 
 	private List<Player>	playerList;
 
-	public Player_Adapter(Context context, List<Player> playerList) {
+	public PlayerAdapter(Context context, List<Player> playerList) {
 		super(context, R.layout.fragment_info_player_row, playerList);
 		this.playerList = playerList;
 	}
@@ -57,7 +57,7 @@ public class Player_Adapter extends ArrayAdapter<Player> {
 						.setTitle(R.string.player_row_ban)
 						.setMessage(
 								"Do you really want to ban "
-										+ Player_Adapter.this.playerList.get(
+										+ PlayerAdapter.this.playerList.get(
 												position).getName() + "?")
 						.setPositiveButton(R.string.yes,
 								new DialogInterface.OnClickListener() {
@@ -82,7 +82,7 @@ public class Player_Adapter extends ArrayAdapter<Player> {
 						.setTitle(R.string.player_row_kick)
 						.setMessage(
 								"Do you really want to kick "
-										+ Player_Adapter.this.playerList.get(
+										+ PlayerAdapter.this.playerList.get(
 												position).getName() + "?")
 						.setPositiveButton(R.string.yes,
 								new DialogInterface.OnClickListener() {
