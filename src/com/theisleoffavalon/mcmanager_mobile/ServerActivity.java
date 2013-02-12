@@ -22,8 +22,11 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.theisleoffavalon.mcmanager_mobile.Listener.AppTabListener;
+import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
+import com.theisleoffavalon.mcmanager_mobile.fragments.ModsFragment;
 
 public class ServerActivity extends Activity {
 
@@ -65,6 +68,31 @@ public class ServerActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_control_panel, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean success = false;
+
+		switch (item.getItemId()) {
+			case R.id.menu_refresh:
+				String variable = getActionBar().getSelectedTab().getText()
+						.toString();
+				if (variable.equals("Info")) {
+					InfoFragment info = (InfoFragment) getFragmentManager()
+							.findFragmentByTag("Info");
+					info.refresh();
+				} else if (variable.equals("Console")) {
+					getFragmentManager().findFragmentByTag("Console");
+				} else if (variable.equals("Mods")) {
+					ModsFragment mods = (ModsFragment) getFragmentManager()
+							.findFragmentByTag("Mods");
+					mods.refresh();
+				}
+				return true;
+			default:
+				return false;
+		}
 	}
 
 	public RestClient getRc() {

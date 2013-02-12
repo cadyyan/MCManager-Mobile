@@ -40,21 +40,21 @@ public class Convert {
 	}
 
 	public static String formatMemory(long bytes) {
-		long gigabytes = bytes / (1024 * 1024 * 1024);
+		double gigabytes = bytes / (1024.00 * 1024 * 1024);
 		if (gigabytes >= 1) {
-			String format = (Math.round(gigabytes * 100) / 100) + " GB";
+			String format = (Math.round(gigabytes * 100) / 100.00) + " GB";
 			return format;
 		}
 
-		long megabytes = bytes / (1024 * 1024);
+		double megabytes = bytes / (1024 * 1024.00);
 		if (megabytes >= 1) {
-			String format = (Math.round(megabytes * 100) / 100) + " MB";
+			String format = (Math.round(megabytes * 100) / 100.00) + " MB";
 			return format;
 		}
 
-		long kilobytes = bytes / (1024);
+		double kilobytes = bytes / (1024.00);
 		if (kilobytes >= 1) {
-			String format = (Math.round(kilobytes * 100) / 100) + " KB";
+			String format = (Math.round(kilobytes * 100) / 100.00) + " KB";
 			return format;
 		}
 

@@ -40,12 +40,18 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 
 		name.setText(this.playerList.get(position).getName());
 
-		if ((position % 3) == 0) {
+		// if ((position % 3) == 0) {
+		// view.setBackgroundColor(Color.parseColor("#593D28"));
+		// } else if ((position % 3) == 1) {
+		// view.setBackgroundColor(Color.parseColor("#976C4A"));
+		// } else {
+		// view.setBackgroundColor(Color.parseColor("#6C6C6C"));
+		// }
+
+		if ((position % 2) == 0) {
 			view.setBackgroundColor(Color.parseColor("#593D28"));
-		} else if ((position % 3) == 1) {
-			view.setBackgroundColor(Color.parseColor("#976C4A"));
 		} else {
-			view.setBackgroundColor(Color.parseColor("#6C6C6C"));
+			view.setBackgroundColor(Color.parseColor("#976C4A"));
 		}
 
 		ban.setOnClickListener(new View.OnClickListener() {

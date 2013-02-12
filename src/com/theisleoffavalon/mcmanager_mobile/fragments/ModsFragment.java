@@ -15,24 +15,30 @@
 
 package com.theisleoffavalon.mcmanager_mobile.fragments;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.theisleoffavalon.mcmanager_mobile.MinecraftMod;
 import com.theisleoffavalon.mcmanager_mobile.R;
-import com.theisleoffavalon.mcmanager_mobile.adapters.Mod_Adapter;
-import com.theisleoffavalon.mcmanager_mobile.datatypes.Mod;
+import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
+import com.theisleoffavalon.mcmanager_mobile.adapters.ModAdapter;
 
 public class ModsFragment extends Fragment {
-	public static List<Mod>		modList;
+	public static List<MinecraftMod>	modList;
 
-	public static Mod_Adapter	ma;
+	public static ModAdapter			ma;
+
+	private AsyncGetModTask				aModTask;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,21 +51,62 @@ public class ModsFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_mods, null, false);
 
 		if (modList == null) {
-			modList = new ArrayList<Mod>();
-			modList.add(new Mod("Test Mod", "infinity", "1.4.7", true));
-			modList.add(new Mod("Test 1", "2", "1.3", false));
-			modList.add(new Mod("Test 2", "2.0.1", "1.3", false));
-			modList.add(new Mod("Test 3", "5.1.4", "1.4", true));
+			modList = new ArrayList<MinecraftMod>();
+			modList.add(new MinecraftMod("Test Mod", "infinity"));
+			modList.add(new MinecraftMod("Test 1", "2"));
+			modList.add(new MinecraftMod("Test 2", "2.0.1"));
+			modList.add(new MinecraftMod("Test 3", "5.1.4"));
 		}
 
-		ma = new Mod_Adapter(getActivity(), modList);
+		ma = new ModAdapter(getActivity(), modList);
 
 		ListView modListView = (ListView) view.findViewById(R.id.frag_mod_list);
 		modListView.addHeaderView(inflater.inflate(
 				R.layout.fragment_mods_row_header, null));
+		this.aModTask = new AsyncGetModTask();
+		this.aModTask.execute();
 		modListView.setAdapter(ma);
 
 		return view;
+	}
+
+	public void refresh() {
+		this.aModTask = new AsyncGetModTask();
+		this.aModTask.execute();
+	}
+
+	public class AsyncGetModTask extends
+			AsyncTask<Void, List<MinecraftMod>, Void> {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected Void doInBackground(Void... Void) {
+			Log.d("AsyncGetModTask", "doInBackground");
+			List<MinecraftMod> serverMods = null;
+			try {
+				serverMods = ((ServerActivity) getActivity()).getRc()
+						.getServerMods();
+
+				publishProgress(serverMods);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected void onProgressUpdate(List<MinecraftMod>... serverInfo) {
+
+			modList.removeAll(modList);
+			modList.addAll(serverInfo[0]);
+			Log.d("Progress Update", serverInfo.toString());
+			ma.notifyDataSetInvalidated();
+			// Toast.makeText(getBaseContext(), result,
+			// Toast.LENGTH_LONG).show();
+
+		}
 	}
 
 }

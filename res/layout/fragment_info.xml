@@ -17,83 +17,151 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/activity_background" >
+    android:background="@drawable/activity_background"
+    android:orientation="vertical" >
 
-    <TextView 
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/text_header"
         android:text="@string/frag_info_header"
-        android:textSize="50sp"
         android:textColor="@color/h1"
-        android:background="@drawable/text_header"/>
-    
+        android:textSize="50sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/list_c1"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frag_info_servername"
+                    android:textColor="@color/h2"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/frag_info_server_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="@color/h2"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/list_c2"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frag_info_uptime"
+                    android:textColor="@color/h2"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/frag_info_uptime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="@color/h2"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/list_c1"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frag_info_memoryusage"
+                    android:textColor="@color/h2"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/frag_info_memoryusage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="@color/h2"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/list_c2"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frag_info_maxmemory"
+                    android:textColor="@color/h2"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/frag_info_maxmemory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_world"
+                    android:textColor="@color/h2"
+                    android:textSize="30sp" />
+            </LinearLayout>
+            
+            <Button
+            android:id="@+id/frag_info_stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/frag_info_button_stop" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical" >
 
-        <!--  <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-            
-            <LineaerLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">  -->
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Server Name"/>
-                
-                <TextView
-                android:id="@+id/frag_info_server_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hello_world" />
-                
-           <!--   </LineaerLayout> -->
+        <!-- android:background="@drawable/info__person_border" -->
 
-            
-            <TextView
-                android:id="@+id/frag_info_uptime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hello_world" />
-      <!--    </LinearLayout> -->
-        
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"/>
-    </LinearLayout>
-
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-        <!--  android:background="@drawable/info__person_border"-->
-        
-        
-        <TextView 
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/text_header"
             android:text="@string/frag_info_player_header"
-            android:textSize="50sp"
             android:textColor="@color/h1"
-            android:background="@drawable/text_header"/>
-        
+            android:textSize="50sp" />
+
         <ListView
-        android:id="@+id/player_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-        
+            android:id="@+id/player_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
-    
 
 </LinearLayout>

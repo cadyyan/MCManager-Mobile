@@ -32,7 +32,8 @@
         android:layout_height="35dp"
         android:layout_weight="0.1"
         android:textSize="30sp"
-        android:text="@string/frag_mods_header_update"/>
+        android:text="@string/frag_mods_header_update"
+        android:visibility="gone"/>
     
 
 </LinearLayout>

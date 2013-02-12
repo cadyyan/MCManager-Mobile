@@ -15,6 +15,12 @@
  - 0. You just DO WHAT THE FUCK YOU WANT TO.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/menu_refresh"
+        android:orderInCategory="70"
+        android:showAsAction="never"
+        android:title="@string/menu_refresh" />
 
     <item
         android:id="@+id/menu_switch"
