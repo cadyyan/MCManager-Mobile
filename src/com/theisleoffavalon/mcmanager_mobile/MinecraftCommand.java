@@ -75,15 +75,16 @@ public class MinecraftCommand {
 	}
 
 	/**
-	 * A JSON RPC version of this command
+	 * The JSON RPC Payload for this command
 	 * 
 	 * @param params
 	 *            The parameters to be executed
-	 * @return A JSONObject with the JSON RPC values set
+	 * @return A JSONObject payload
 	 */
 	@SuppressWarnings("unchecked")
 	public JSONObject createJSONObject(Map<String, Object> params) {
 		JSONObject json = new JSONObject();
+
 		JSONObject parameters = new JSONObject();
 		for (Object key : params.keySet()) {
 			if (checkParamType((String) key, params.get(key))) {
@@ -95,10 +96,8 @@ public class MinecraftCommand {
 		}
 		UUID id = UUID.randomUUID();
 
-		json.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
-		json.put("id", id.toString());
-		json.put("method", this.name);
-		json.put("params", parameters);
+		json.put("command", this.name);
+		json.put("args", parameters);
 
 		Log.d("Command", "Created Command JSON of " + json.toJSONString());
 		return json;

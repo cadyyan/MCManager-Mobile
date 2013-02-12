@@ -227,18 +227,20 @@ public class RestClient {
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> executeCommand(MinecraftCommand cmd,
 			Map<String, Object> params) throws IOException {
 		Map<String, Object> ret = new HashMap<String, Object>();
 
 		// Create request
-		JSONObject request = cmd.createJSONObject(params);
+		JSONObject request = createJSONRPCObject("command");
+		JSONObject command = cmd.createJSONObject(params);
+		request.put("params", command);
 		// Send request
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
 
 		// Parse response
-		@SuppressWarnings("unchecked")
 		Map<String, Object> json = (JSONObject) response.get("result");
 		ret.putAll(json);
 
@@ -286,18 +288,25 @@ public class RestClient {
 	/**
 	 * Gets a list of all methods on the server's JSON-RPC service
 	 * 
-	 * @return A list of methods
+	 * @return A map of methods and their descriptions
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> getAllMethods() throws IOException {
+	public Map<String, String> getAllMethods() throws IOException {
+		Map<String, String> methods = new HashMap<String, String>();
 		JSONObject request = createJSONRPCObject("getAllMethods");
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
 
 		// Parse response
 		JSONObject json = (JSONObject) response.get("result");
-		return (List<String>) json.get("methods");
+		Map<String, String> jmethods = (Map<String, String>) json
+				.get("methods");
+		for (String method : jmethods.keySet()) {
+			methods.put(method, jmethods.get(method));
+		}
+
+		return methods;
 	}
 }
