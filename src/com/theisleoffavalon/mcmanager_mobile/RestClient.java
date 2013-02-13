@@ -53,7 +53,12 @@ public class RestClient {
 	/**
 	 * The root URL of the API
 	 */
-	private URL	rootUrl;
+	private URL					rootUrl;
+
+	/**
+	 * JSONRPC version string
+	 */
+	private static final String	JSON_RPC_VERSION	= "2.0";
 
 	/**
 	 * Creates a rest client for the given parameters
@@ -129,7 +134,7 @@ public class RestClient {
 	private JSONObject createJSONRPCObject(String method) {
 		UUID id = UUID.randomUUID();
 		JSONObject request = new JSONObject();
-		request.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
+		request.put("jsonrpc", JSON_RPC_VERSION);
 		request.put("method", method);
 		request.put("id", id.toString());
 		return request;
@@ -293,11 +298,7 @@ public class RestClient {
 			throw new IllegalArgumentException("List was null");
 		}
 		JSONObject request = createJSONRPCObject("consoleMessages");
-		if (index >= 0) {
-			request.put("params", (new JSONObject()).put("from", index));
-		} else {
-			request.put("params", new JSONObject());
-		}
+		request.put("params", index);
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
 
@@ -338,9 +339,8 @@ public class RestClient {
 		checkJSONResponse(response, request);
 
 		// Parse response
-		JSONObject json = (JSONObject) response.get("result");
-		Map<String, String> jmethods = (Map<String, String>) json
-				.get("methods");
+		Map<String, String> jmethods = (Map<String, String>) response
+				.get("result");
 		for (String method : jmethods.keySet()) {
 			methods.put(method, jmethods.get(method));
 		}
