@@ -172,17 +172,17 @@ public class RestClient {
 	 * @throws IOException
 	 *             If an error is encountered
 	 */
-	public List<MinecraftCommand> getAllMinecraftCommands() throws IOException {
-		List<MinecraftCommand> cmds = new ArrayList<MinecraftCommand>();
+	public Map<String, MinecraftCommand> getAllMinecraftCommands()
+			throws IOException {
+		Map<String, MinecraftCommand> cmds = new HashMap<String, MinecraftCommand>();
 		JSONObject request = createJSONRPCObject("getAllCommands");
-		JSONObject resp = sendJSONRPC(request);
-		checkJSONResponse(resp, request);
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
 
 		// Parse result
-		JSONObject result = (JSONObject) resp.get("result");
 		@SuppressWarnings("unchecked")
-		Map<String, JSONObject> commands = (Map<String, JSONObject>) result
-				.get("commands");
+		Map<String, JSONObject> commands = (Map<String, JSONObject>) response
+				.get("result");
 		for (String name : commands.keySet()) {
 			JSONObject paramObj = commands.get(name);
 			JSONArray jparams = (JSONArray) paramObj.get("params");
@@ -193,7 +193,7 @@ public class RestClient {
 				params.put((String) jparams.get(i), ArgType
 						.getArgTypeFromString((String) jparamTypes.get(i)));
 			}
-			cmds.add(new MinecraftCommand(name, params));
+			cmds.put(name, new MinecraftCommand(name, params));
 		}
 		return cmds;
 	}
