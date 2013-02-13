@@ -331,7 +331,6 @@ public class RestClient {
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
-	@SuppressWarnings("unchecked")
 	public Map<String, String> getAllMethods() throws IOException {
 		Map<String, String> methods = new HashMap<String, String>();
 		JSONObject request = createJSONRPCObject("getAllMethods");
@@ -339,6 +338,7 @@ public class RestClient {
 		checkJSONResponse(response, request);
 
 		// Parse response
+		@SuppressWarnings("unchecked")
 		Map<String, String> jmethods = (Map<String, String>) response
 				.get("result");
 		for (String method : jmethods.keySet()) {
