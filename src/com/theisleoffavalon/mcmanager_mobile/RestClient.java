@@ -267,9 +267,8 @@ public class RestClient {
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
 
-		JSONObject result = (JSONObject) response.get("result");
 		@SuppressWarnings("unchecked")
-		List<JSONObject> modlist = (List<JSONObject>) result.get("mods");
+		List<JSONObject> modlist = (List<JSONObject>) response.get("result");
 		for (Map<String, String> m : modlist) {
 			mods.add(new MinecraftMod(m.get("name"), m.get("version")));
 		}
