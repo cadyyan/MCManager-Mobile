@@ -53,7 +53,12 @@ public class RestClient {
 	/**
 	 * The root URL of the API
 	 */
-	private URL	rootUrl;
+	private URL					rootUrl;
+
+	/**
+	 * JSONRPC version string
+	 */
+	private static final String	JSON_RPC_VERSION	= "2.0";
 
 	/**
 	 * Creates a rest client for the given parameters
@@ -129,7 +134,7 @@ public class RestClient {
 	private JSONObject createJSONRPCObject(String method) {
 		UUID id = UUID.randomUUID();
 		JSONObject request = new JSONObject();
-		request.put("jsonrpc", JSONRpcValues.JSON_RPC_VERSION);
+		request.put("jsonrpc", JSON_RPC_VERSION);
 		request.put("method", method);
 		request.put("id", id.toString());
 		return request;
@@ -167,17 +172,17 @@ public class RestClient {
 	 * @throws IOException
 	 *             If an error is encountered
 	 */
-	public List<MinecraftCommand> getAllMinecraftCommands() throws IOException {
-		List<MinecraftCommand> cmds = new ArrayList<MinecraftCommand>();
+	public Map<String, MinecraftCommand> getAllMinecraftCommands()
+			throws IOException {
+		Map<String, MinecraftCommand> cmds = new HashMap<String, MinecraftCommand>();
 		JSONObject request = createJSONRPCObject("getAllCommands");
-		JSONObject resp = sendJSONRPC(request);
-		checkJSONResponse(resp, request);
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
 
 		// Parse result
-		JSONObject result = (JSONObject) resp.get("result");
 		@SuppressWarnings("unchecked")
-		Map<String, JSONObject> commands = (Map<String, JSONObject>) result
-				.get("commands");
+		Map<String, JSONObject> commands = (Map<String, JSONObject>) response
+				.get("result");
 		for (String name : commands.keySet()) {
 			JSONObject paramObj = commands.get(name);
 			JSONArray jparams = (JSONArray) paramObj.get("params");
@@ -188,7 +193,7 @@ public class RestClient {
 				params.put((String) jparams.get(i), ArgType
 						.getArgTypeFromString((String) jparamTypes.get(i)));
 			}
-			cmds.add(new MinecraftCommand(name, params));
+			cmds.put(name, new MinecraftCommand(name, params));
 		}
 		return cmds;
 	}
@@ -227,18 +232,20 @@ public class RestClient {
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> executeCommand(MinecraftCommand cmd,
 			Map<String, Object> params) throws IOException {
 		Map<String, Object> ret = new HashMap<String, Object>();
 
 		// Create request
-		JSONObject request = cmd.createJSONObject(params);
+		JSONObject request = createJSONRPCObject("command");
+		JSONObject command = cmd.createJSONObject(params);
+		request.put("params", command);
 		// Send request
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
 
 		// Parse response
-		@SuppressWarnings("unchecked")
 		Map<String, Object> json = (JSONObject) response.get("result");
 		ret.putAll(json);
 
@@ -260,15 +267,47 @@ public class RestClient {
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
 
-		JSONObject result = (JSONObject) response.get("result");
 		@SuppressWarnings("unchecked")
-		List<JSONObject> modlist = (List<JSONObject>) result.get("mods");
+		List<JSONObject> modlist = (List<JSONObject>) response.get("result");
 		for (Map<String, String> m : modlist) {
 			mods.add(new MinecraftMod(m.get("name"), m.get("version")));
 		}
 
 		return mods;
 
+	}
+
+	/**
+	 * Gets console messages since index and appends it to message
+	 * 
+	 * @param index
+	 *            The last index, set to -1 for all currently on server
+	 * @param messages
+	 *            The list to append to
+	 * @return The last index of received messages
+	 * @throws IOException
+	 *             If a connection error occurs
+	 */
+	@SuppressWarnings("unchecked")
+	public long getConsoleMessages(long index, List<String> messages)
+			throws IOException {
+		long lastIndex = -1;
+		if (messages == null) {
+			Log.e("RestClient", "Passed in List was null!");
+			throw new IllegalArgumentException("List was null");
+		}
+		JSONObject request = createJSONRPCObject("consoleMessages");
+		request.put("params", index);
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+
+		List<JSONObject> jmessages = (List<JSONObject>) response.get("result");
+		for (JSONObject message : jmessages) {
+			lastIndex = (Long) message.get("id");
+			messages.add((String) message.get("message"));
+		}
+
+		return lastIndex;
 	}
 
 	/**
@@ -286,18 +325,24 @@ public class RestClient {
 	/**
 	 * Gets a list of all methods on the server's JSON-RPC service
 	 * 
-	 * @return A list of methods
+	 * @return A map of methods and their descriptions
 	 * @throws IOException
 	 *             If a connection problem occurs
 	 */
-	@SuppressWarnings("unchecked")
-	public List<String> getAllMethods() throws IOException {
+	public Map<String, String> getAllMethods() throws IOException {
+		Map<String, String> methods = new HashMap<String, String>();
 		JSONObject request = createJSONRPCObject("getAllMethods");
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
 
 		// Parse response
-		JSONObject json = (JSONObject) response.get("result");
-		return (List<String>) json.get("methods");
+		@SuppressWarnings("unchecked")
+		Map<String, String> jmethods = (Map<String, String>) response
+				.get("result");
+		for (String method : jmethods.keySet()) {
+			methods.put(method, jmethods.get(method));
+		}
+
+		return methods;
 	}
 }
