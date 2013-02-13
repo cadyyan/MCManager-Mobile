@@ -302,8 +302,7 @@ public class RestClient {
 		JSONObject response = sendJSONRPC(request);
 		checkJSONResponse(response, request);
 
-		JSONObject result = (JSONObject) response.get("result");
-		List<JSONObject> jmessages = (List<JSONObject>) result.get("messages");
+		List<JSONObject> jmessages = (List<JSONObject>) response.get("result");
 		for (JSONObject message : jmessages) {
 			lastIndex = (Long) message.get("id");
 			messages.add((String) message.get("message"));
