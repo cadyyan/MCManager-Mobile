@@ -274,6 +274,44 @@ public class RestClient {
 	}
 
 	/**
+	 * Gets console messages since index and appends it to message
+	 * 
+	 * @param index
+	 *            The last index, set to -1 for all currently on server
+	 * @param messages
+	 *            The list to append to
+	 * @return The last index of received messages
+	 * @throws IOException
+	 *             If a connection error occurs
+	 */
+	@SuppressWarnings("unchecked")
+	public long getConsoleMessages(long index, List<String> messages)
+			throws IOException {
+		long lastIndex = -1;
+		if (messages == null) {
+			Log.e("RestClient", "Passed in List was null!");
+			throw new IllegalArgumentException("List was null");
+		}
+		JSONObject request = createJSONRPCObject("consoleMessages");
+		if (index >= 0) {
+			request.put("params", (new JSONObject()).put("from", index));
+		} else {
+			request.put("params", new JSONObject());
+		}
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+
+		JSONObject result = (JSONObject) response.get("result");
+		List<JSONObject> jmessages = (List<JSONObject>) result.get("messages");
+		for (JSONObject message : jmessages) {
+			lastIndex = (Long) message.get("id");
+			messages.add((String) message.get("message"));
+		}
+
+		return lastIndex;
+	}
+
+	/**
 	 * Stops the Minecraft server
 	 * 
 	 * @throws IOException
