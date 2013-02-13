@@ -50,19 +50,24 @@ public class ModsFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_mods, null, false);
 
-		if (modList == null) {
-			modList = new ArrayList<MinecraftMod>();
-			modList.add(new MinecraftMod("Test Mod", "infinity"));
-			modList.add(new MinecraftMod("Test 1", "2"));
-			modList.add(new MinecraftMod("Test 2", "2.0.1"));
-			modList.add(new MinecraftMod("Test 3", "5.1.4"));
-		}
-
+		/*
+		 * Temp modList for when the server is not communicating.
+		 */
+		// if (modList == null) {
+		// modList = new ArrayList<MinecraftMod>();
+		// modList.add(new MinecraftMod("Test Mod", "infinity"));
+		// modList.add(new MinecraftMod("Test 1", "2"));
+		// modList.add(new MinecraftMod("Test 2", "2.0.1"));
+		// modList.add(new MinecraftMod("Test 3", "5.1.4"));
+		// }
+		modList = new ArrayList<MinecraftMod>();
 		ma = new ModAdapter(getActivity(), modList);
 
 		ListView modListView = (ListView) view.findViewById(R.id.frag_mod_list);
 		modListView.addHeaderView(inflater.inflate(
 				R.layout.fragment_mods_row_header, null));
+
+		// Get Server Mod List
 		this.aModTask = new AsyncGetModTask();
 		this.aModTask.execute();
 		modListView.setAdapter(ma);
@@ -70,11 +75,21 @@ public class ModsFragment extends Fragment {
 		return view;
 	}
 
+	/**
+	 * This method is called by the ServerActivity to refresh the fragment's
+	 * info.
+	 */
 	public void refresh() {
 		this.aModTask = new AsyncGetModTask();
 		this.aModTask.execute();
 	}
 
+	/**
+	 * This class is to retreive the info from the server and to display it on
+	 * the fragment.
+	 * 
+	 * @author eberta
+	 */
 	public class AsyncGetModTask extends
 			AsyncTask<Void, List<MinecraftMod>, Void> {
 

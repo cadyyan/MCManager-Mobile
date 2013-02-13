@@ -56,7 +56,6 @@
                     android:id="@+id/frag_info_server_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/hello_world"
                     android:textColor="@color/h2"
                     android:textSize="30sp" />
             </LinearLayout>
@@ -78,7 +77,6 @@
                     android:id="@+id/frag_info_uptime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/hello_world"
                     android:textColor="@color/h2"
                     android:textSize="30sp" />
             </LinearLayout>
@@ -100,7 +98,6 @@
                     android:id="@+id/frag_info_memoryusage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/hello_world"
                     android:textColor="@color/h2"
                     android:textSize="30sp" />
             </LinearLayout>
@@ -122,7 +119,6 @@
                     android:id="@+id/frag_info_maxmemory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/hello_world"
                     android:textColor="@color/h2"
                     android:textSize="30sp" />
             </LinearLayout>

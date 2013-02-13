@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.theisleoffavalon.mcmanager_mobile.MainConsole;
+import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand;
 import com.theisleoffavalon.mcmanager_mobile.R;
 import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
 import com.theisleoffavalon.mcmanager_mobile.adapters.PlayerAdapter;
@@ -44,15 +46,31 @@ import com.theisleoffavalon.mcmanager_mobile.helpers.Convert;
 
 public class InfoFragment extends Fragment {
 
-	private List<Player>		playerList;
+	private List<Player>	playerList;
 
-	private PlayerAdapter		pa;
+	private PlayerAdapter	pa;
 
-	private AsyncGetInfoTask	aInfoTask;
+	private Handler			timer;
+
+	public Runnable			refresh	= new Runnable() {
+
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											new AsyncGetInfoTask().execute();
+											InfoFragment.this.timer
+													.postDelayed(
+															InfoFragment.this.refresh,
+															3000);
+										}
+
+									};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.timer = new Handler();
+		this.refresh.run();
 	}
 
 	@Override
@@ -94,22 +112,25 @@ public class InfoFragment extends Fragment {
 				.findViewById(R.id.player_list);
 		servername.setText("Test Server");
 
-		this.aInfoTask = new AsyncGetInfoTask();
-		this.aInfoTask.execute();
-
-		if (this.playerList == null) {
-			this.playerList = new ArrayList<Player>();
-			this.playerList.add(new Player("Terminator", "155.92.13.12", null));
-			this.playerList.add(new Player("The Ugly", "155.92.123.11", null));
-			this.playerList.add(new Player("Postal", "10.12.14.12", null));
-			this.playerList.add(new Player("Temporal", "1.1.1.1", null));
-			this.playerList.add(new Player("Ooops", "0.0.0.0", null));
-		}
-
+		// if (this.playerList == null) {
+		// this.playerList = new ArrayList<Player>();
+		// this.playerList.add(new Player("Terminator", "155.92.13.12", null));
+		// this.playerList.add(new Player("The Ugly", "155.92.123.11", null));
+		// this.playerList.add(new Player("Postal", "10.12.14.12", null));
+		// this.playerList.add(new Player("Temporal", "1.1.1.1", null));
+		// this.playerList.add(new Player("Ooops", "0.0.0.0", null));
+		// }
+		this.playerList = new ArrayList<Player>();
 		this.pa = new PlayerAdapter(getActivity(), this.playerList);
 		playerListView.setAdapter(this.pa);
 
 		return view;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		this.timer.removeCallbacks(this.refresh);
 	}
 
 	private List<Player> parseList(List<String> stringList) {
@@ -122,8 +143,7 @@ public class InfoFragment extends Fragment {
 	}
 
 	public void refresh() {
-		this.aInfoTask = new AsyncGetInfoTask();
-		this.aInfoTask.execute();
+		new AsyncGetInfoTask().execute();
 	}
 
 	public class AsyncGetInfoTask extends
@@ -170,5 +190,30 @@ public class InfoFragment extends Fragment {
 			// Toast.LENGTH_LONG).show();
 
 		}
+	}
+
+	public class AsyncKickPlayer extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... player) {
+			try {
+				List<MinecraftCommand> list = ((ServerActivity) getActivity())
+						.getRc().getAllMinecraftCommands();
+				MinecraftCommand command;
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i).getName().equals("Kick")) {
+						command = list.get(i);
+						break;
+					}
+				}
+				((ServerActivity) getActivity()).getRc().executeCommand(
+						command, player[0]);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
 	}
 }
