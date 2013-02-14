@@ -1,6 +1,18 @@
-/**
+/*
+ * DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE Version 2, December 2004
  * 
+ * Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ * 
+ * Everyone is permitted to copy and distribute verbatim or modified copies of
+ * this license document, and changing it is allowed as long as the name is
+ * changed.
+ * 
+ * DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING,
+ * DISTRIBUTION AND MODIFICATION
+ * 
+ * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
+
 package com.theisleoffavalon.mcmanager_mobile;
 
 import java.io.BufferedInputStream;
@@ -11,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,12 +66,12 @@ public class RestClient {
 	/**
 	 * The root URL of the API
 	 */
-	private URL					rootUrl;
+	private URL rootUrl;
 
 	/**
 	 * JSONRPC version string
 	 */
-	private static final String	JSON_RPC_VERSION	= "2.0";
+	private static final String JSON_RPC_VERSION = "2.0";
 
 	/**
 	 * Creates a rest client for the given parameters
@@ -166,6 +179,63 @@ public class RestClient {
 	}
 
 	/**
+	 * Does a SHA-256 hash of the password
+	 * 
+	 * @param password
+	 *            The password to hash
+	 * @return The hashed password
+	 * @throws AuthenticationException
+	 *             If a problem occurs during hashing
+	 */
+	public String hashPassword(String password) throws AuthenticationException {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(password.getBytes("UTF-8"));
+			byte[] digest = md.digest();
+			StringBuilder sb = new StringBuilder();
+			for (byte b : digest) {
+				sb.append(String.format("%02x", b));
+			}
+			return sb.toString();
+		} catch (Exception e) {
+			Log.e("RestClient", "Failed to encode password", e);
+			throw new AuthenticationException("Password Encode failure");
+		}
+	}
+
+	/**
+	 * Authenticates the user with the server and gives an authentication token
+	 * 
+	 * @param user
+	 *            The user name to login with
+	 * @param password
+	 *            The password to use
+	 * @return An authentication token if successful, null otherwise
+	 * @throws IOException
+	 *             If a connection problem occurs
+	 * @throws AuthenticationException
+	 *             If a problem authenticating occurs
+	 */
+	@SuppressWarnings("unchecked")
+	public String login(String user, String password) throws IOException,
+			AuthenticationException {
+		String hashedPassword = hashPassword(password);
+
+		Map<String, String> params = new JSONObject();
+		params.put("user", user);
+		params.put("password", hashedPassword);
+
+		JSONObject request = createJSONRPCObject("login");
+		request.put("params", params);
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+
+		String auth = (String) response.get("result");
+
+		return auth;
+	}
+
+	/**
 	 * Gets all available Minecraft commands on the server
 	 * 
 	 * @return A list of Minecraft commands
@@ -233,9 +303,8 @@ public class RestClient {
 	 *             If a connection problem occurs
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> executeCommand(MinecraftCommand cmd,
+	public String executeCommand(MinecraftCommand cmd,
 			Map<String, Object> params) throws IOException {
-		Map<String, Object> ret = new HashMap<String, Object>();
 
 		// Create request
 		JSONObject request = createJSONRPCObject("command");
@@ -246,10 +315,9 @@ public class RestClient {
 		checkJSONResponse(response, request);
 
 		// Parse response
-		Map<String, Object> json = (JSONObject) response.get("result");
-		ret.putAll(json);
+		String json = (String) response.get("result");
 
-		return ret;
+		return json;
 	}
 
 	/**
