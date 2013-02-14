@@ -31,11 +31,13 @@
         android:id="@+id/menu_profile_settings"
         android:orderInCategory="90"
         android:showAsAction="never"
+        android:visible="false"
         android:title="@string/menu_profile_settings"/>
     <item
         android:id="@+id/menu_global_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
+        android:visible="false"
         android:title="@string/menu_global_settings"/>
 
 </menu>
