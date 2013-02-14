@@ -195,7 +195,7 @@ public class InfoFragment extends Fragment {
 	}
 
 	/**
-	 * Method that creates the async task to kick a plery.
+	 * Method that creates the async task to kick a player.
 	 * 
 	 * @param name
 	 *            String containing the name of the person to kick.
