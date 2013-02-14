@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.theisleoffavalon.mcmanager_mobile.datatypes;
+package com.theisleoffavalon.mcmanager.mobile.datatypes;
 
 /**
  * Class that represents a Player.

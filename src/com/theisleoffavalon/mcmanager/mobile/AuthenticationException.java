@@ -12,7 +12,7 @@
  * 
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
-package com.theisleoffavalon.mcmanager_mobile;
+package com.theisleoffavalon.mcmanager.mobile;
 
 /**
  * This exception is thrown when an error occurs with authentication on the
@@ -23,7 +23,6 @@ package com.theisleoffavalon.mcmanager_mobile;
 public class AuthenticationException extends Exception {
 
 	/**
-	 * 
 	 * @param reason
 	 *            The reason why the Authentication Exception is being thrown
 	 */
@@ -34,6 +33,6 @@ public class AuthenticationException extends Exception {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8182617303356496762L;
+	private static final long	serialVersionUID	= 8182617303356496762L;
 
 }

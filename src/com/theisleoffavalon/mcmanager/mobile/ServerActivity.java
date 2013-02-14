@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.theisleoffavalon.mcmanager_mobile;
+package com.theisleoffavalon.mcmanager.mobile;
 
 import java.net.MalformedURLException;
 
@@ -25,10 +25,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.theisleoffavalon.mcmanager_mobile.Listener.AppTabListener;
-import com.theisleoffavalon.mcmanager_mobile.fragments.ConsoleFragment;
-import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
-import com.theisleoffavalon.mcmanager_mobile.fragments.ModsFragment;
+import com.theisleoffavalon.mcmanager.mobile.Listener.AppTabListener;
+import com.theisleoffavalon.mcmanager.mobile.fragments.ConsoleFragment;
+import com.theisleoffavalon.mcmanager.mobile.fragments.InfoFragment;
+import com.theisleoffavalon.mcmanager.mobile.fragments.ModsFragment;
 
 /**
  * Activity that displays all the tabs and the server info.
