@@ -245,9 +245,8 @@ public class RestClient {
 	 *             If a connection problem occurs
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> executeCommand(MinecraftCommand cmd,
+	public String executeCommand(MinecraftCommand cmd,
 			Map<String, Object> params) throws IOException {
-		Map<String, Object> ret = new HashMap<String, Object>();
 
 		// Create request
 		JSONObject request = createJSONRPCObject("command");
@@ -258,10 +257,9 @@ public class RestClient {
 		checkJSONResponse(response, request);
 
 		// Parse response
-		Map<String, Object> json = (JSONObject) response.get("result");
-		ret.putAll(json);
+		String json = (String) response.get("result");
 
-		return ret;
+		return json;
 	}
 
 	/**
