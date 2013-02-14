@@ -26,10 +26,22 @@ import com.theisleoffavalon.mcmanager_mobile.fragments.ConsoleFragment;
 import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
 import com.theisleoffavalon.mcmanager_mobile.fragments.ModsFragment;
 
+/**
+ * Class to listen to tab changes.
+ * 
+ * @author eberta
+ * @modified 2/14/13
+ */
 public class AppTabListener implements TabListener {
 
+	/**
+	 * Activity that calls the AppTabListener.
+	 */
 	private Activity		activity;
 
+	/**
+	 * Activity's fragment manager.
+	 */
 	private FragmentManager	fm;
 
 	public AppTabListener(Activity activity) {

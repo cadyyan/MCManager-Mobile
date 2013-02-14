@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.theisleoffavalon.mcmanager_mobile.MainConsole;
 import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand;
@@ -45,27 +46,56 @@ import com.theisleoffavalon.mcmanager_mobile.async.AsyncStopServer;
 import com.theisleoffavalon.mcmanager_mobile.datatypes.Player;
 import com.theisleoffavalon.mcmanager_mobile.helpers.Convert;
 
+/**
+ * Class representing the Info Fragment.
+ * 
+ * @author eberta
+ * @modified 2/14/13
+ */
 public class InfoFragment extends Fragment {
 
-	private List<Player>	playerList;
+	/**
+	 * Int containing the refresh rate for the fragment.
+	 */
+	private final int			REFRESH_RATE	= 3000;
 
-	private PlayerAdapter	pa;
+	/**
+	 * List of player objects that represent online players on the server.
+	 */
+	private List<Player>		playerList;
 
-	private Handler			timer;
+	/**
+	 * Custom Adapter that handles how players are displayed.
+	 */
+	private PlayerAdapter		pa;
 
-	public Runnable			refresh	= new Runnable() {
+	/**
+	 * Handle for the AsyncGetInfoTask so it can be called on.
+	 */
+	private AsyncGetInfoTask	async;
 
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											new AsyncGetInfoTask().execute();
-											InfoFragment.this.timer
-													.postDelayed(
-															InfoFragment.this.refresh,
-															3000);
-										}
+	/**
+	 * Handler that refreshes the screen based on a REFRESH_RATE;
+	 */
+	private Handler				timer;
 
-									};
+	/**
+	 * Runnable that creates a thread in which a handle is placed for it to run.
+	 */
+	public Runnable				refresh			= new Runnable() {
+
+													@Override
+													public void run() {
+														InfoFragment.this.async = new AsyncGetInfoTask();
+														InfoFragment.this.async
+																.execute();
+														InfoFragment.this.timer
+																.postDelayed(
+																		InfoFragment.this.refresh,
+																		InfoFragment.this.REFRESH_RATE);
+													}
+
+												};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -128,12 +158,25 @@ public class InfoFragment extends Fragment {
 		return view;
 	}
 
+	/**
+	 * Method called when the fragment is destroyed.
+	 */
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
+		this.async.cancel(true);
 		this.timer.removeCallbacks(this.refresh);
+		super.onDestroy();
+
 	}
 
+	/**
+	 * Parses the player list into a format that the list adapter can
+	 * understand.
+	 * 
+	 * @param stringList
+	 *            List of strings that represent the players on the server.
+	 * @return Returns a List of player objects for the display.
+	 */
 	private List<Player> parseList(List<String> stringList) {
 		List<Player> temp = new ArrayList<Player>();
 		for (String t : stringList) {
@@ -143,18 +186,40 @@ public class InfoFragment extends Fragment {
 		return temp;
 	}
 
+	/**
+	 * Refreshes the info on screen by recalling the AsyncGetInfoTask class.
+	 */
 	public void refresh() {
-		new AsyncGetInfoTask().execute();
+		this.async = new AsyncGetInfoTask();
+		this.async.execute();
 	}
 
+	/**
+	 * Method that creates the async task to kick a plery.
+	 * 
+	 * @param name
+	 *            String containing the name of the person to kick.
+	 */
 	public void kickPlayer(String name) {
 		new AsyncKickPlayer().execute(name);
 	}
 
+	/**
+	 * Method that creates the async task to ban a player.
+	 * 
+	 * @param name
+	 *            String containing the name of the person to ban.
+	 */
 	public void banPlayer(String name) {
 		new AsyncBanPlayer().execute(name);
 	}
 
+	/**
+	 * Async Task that gets current server info
+	 * 
+	 * @author eberta
+	 * @modified 2/14/13
+	 */
 	public class AsyncGetInfoTask extends
 			AsyncTask<Void, Map<String, Object>, Void> {
 
@@ -169,7 +234,9 @@ public class InfoFragment extends Fragment {
 
 				publishProgress(serverInfo);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Toast.makeText(getActivity(),
+						"Connection error: " + e.getLocalizedMessage(),
+						Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
 			return null;
@@ -201,6 +268,12 @@ public class InfoFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * Async Task that is used to kick a player from the server.
+	 * 
+	 * @author eberta
+	 * @modified 2/14/13
+	 */
 	public class AsyncKickPlayer extends AsyncTask<String, Void, Void> {
 
 		@Override
@@ -213,7 +286,9 @@ public class InfoFragment extends Fragment {
 				((ServerActivity) getActivity()).getRc().executeCommand(
 						list.get("Kick"), args);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Toast.makeText(getActivity(),
+						"Connection error: " + e.getLocalizedMessage(),
+						Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
 			return null;
@@ -221,6 +296,12 @@ public class InfoFragment extends Fragment {
 
 	}
 
+	/**
+	 * Async Task that bans a player from the server.
+	 * 
+	 * @author eberta
+	 * @modified 2/14/13
+	 */
 	public class AsyncBanPlayer extends AsyncTask<String, Void, Void> {
 
 		@Override
@@ -233,7 +314,9 @@ public class InfoFragment extends Fragment {
 				((ServerActivity) getActivity()).getRc().executeCommand(
 						list.get("Ban"), args);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Toast.makeText(getActivity(),
+						"Connection error: " + e.getLocalizedMessage(),
+						Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
 			return null;

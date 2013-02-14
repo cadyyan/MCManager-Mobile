@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
- package com.theisleoffavalon.mcmanager_mobile.adapters;
+package com.theisleoffavalon.mcmanager_mobile.adapters;
 
 import java.util.List;
 
@@ -34,10 +34,22 @@ import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
 import com.theisleoffavalon.mcmanager_mobile.datatypes.Player;
 import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
 
+/**
+ * Custom Adapter to help display the Player objects that represent players.
+ * 
+ * @author eberta
+ * @modified 2/14/13
+ */
 public class PlayerAdapter extends ArrayAdapter<Player> {
 
+	/**
+	 * Context of the app for the adapter to call on.
+	 */
 	private Context			context;
 
+	/**
+	 * List of players on the server.
+	 */
 	private List<Player>	playerList;
 
 	public PlayerAdapter(Context context, List<Player> playerList) {

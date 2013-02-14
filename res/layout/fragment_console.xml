@@ -28,24 +28,19 @@
         android:textColor="@color/h1"
         android:background="@drawable/text_header"/>
     
-    <ScrollView 
-        android:id="@+id/fragment_console_console_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        
-        <TextView 
+    <ListView 
         android:id="@+id/fragment_console_console"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
-    </ScrollView>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
     
     
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/list_c2">
+        android:background="@color/list_c2"
+        >
         
         <Spinner 
             android:id="@+id/fragment_console_commands"
@@ -57,7 +52,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:inputType="text"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            />
         
         <Button 
             android:id="@+id/fragment_console_send"

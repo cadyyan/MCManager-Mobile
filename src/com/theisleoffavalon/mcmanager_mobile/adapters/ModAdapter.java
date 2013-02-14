@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
- package com.theisleoffavalon.mcmanager_mobile.adapters;
+package com.theisleoffavalon.mcmanager_mobile.adapters;
 
 import java.util.List;
 
@@ -29,8 +29,17 @@ import android.widget.TextView;
 import com.theisleoffavalon.mcmanager_mobile.MinecraftMod;
 import com.theisleoffavalon.mcmanager_mobile.R;
 
+/**
+ * Custom Adapter for properly displaying Mods in their list.
+ * 
+ * @author eberta
+ * @modified 2/14/13
+ */
 public class ModAdapter extends ArrayAdapter<MinecraftMod> {
 
+	/**
+	 * List of the mods in minecraft represented by MinecraftMod objects.
+	 */
 	private List<MinecraftMod>	modList;
 
 	public ModAdapter(Context context, List<MinecraftMod> modList) {
@@ -70,6 +79,9 @@ public class ModAdapter extends ArrayAdapter<MinecraftMod> {
 		// view.setBackgroundColor(Color.parseColor("#6C6C6C"));
 		// }
 
+		/*
+		 * Alternates the background between two colors.
+		 */
 		if ((position % 2) == 0) {
 			view.setBackgroundColor(Color.parseColor("#593D28"));
 		} else {

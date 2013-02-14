@@ -66,12 +66,12 @@ public class RestClient {
 	/**
 	 * The root URL of the API
 	 */
-	private URL rootUrl;
+	private URL					rootUrl;
 
 	/**
 	 * JSONRPC version string
 	 */
-	private static final String JSON_RPC_VERSION = "2.0";
+	private static final String	JSON_RPC_VERSION	= "2.0";
 
 	/**
 	 * Creates a rest client for the given parameters
@@ -359,7 +359,7 @@ public class RestClient {
 	@SuppressWarnings("unchecked")
 	public long getConsoleMessages(long index, List<String> messages)
 			throws IOException {
-		long lastIndex = -1;
+		long lastIndex = index;
 		if (messages == null) {
 			Log.e("RestClient", "Passed in List was null!");
 			throw new IllegalArgumentException("List was null");

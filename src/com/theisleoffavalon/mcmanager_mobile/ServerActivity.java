@@ -15,8 +15,6 @@
 
 package com.theisleoffavalon.mcmanager_mobile;
 
-import java.net.MalformedURLException;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -26,25 +24,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.theisleoffavalon.mcmanager_mobile.Listener.AppTabListener;
+import com.theisleoffavalon.mcmanager_mobile.fragments.ConsoleFragment;
 import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
 import com.theisleoffavalon.mcmanager_mobile.fragments.ModsFragment;
 
+/**
+ * Activity that displays all the tabs and the server info.
+ * 
+ * @author eberta
+ * @modified 2/13/13
+ */
 public class ServerActivity extends Activity {
 
+	/**
+	 * Instance of the RestClient that is used to communicate with the server.
+	 */
 	protected RestClient	rc;
 
+	/**
+	 * Sets up the tabs and the listener for the tabs.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_control_panel);
-
-		try {
-			this.rc = new RestClient("http", getIntent().getExtras().getString(
-					"address"), 1716, "/rpc");
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.rc = (RestClient) getIntent().getExtras().get("RestClient");
 
 		ActionBar abar = getActionBar();
 		abar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -64,6 +68,9 @@ public class ServerActivity extends Activity {
 		abar.selectTab(info);
 	}
 
+	/**
+	 * Creates the options menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -71,12 +78,16 @@ public class ServerActivity extends Activity {
 		return true;
 	}
 
+	/**
+	 * Selects the correct refresh method and also switches back to the main
+	 * login activity.
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean success = false;
 
 		switch (item.getItemId()) {
-			case R.id.menu_refresh:
+			case R.id.menu_refresh: // Calls the correct refresh command based
+									// on the tab loaded.
 				String variable = getActionBar().getSelectedTab().getText()
 						.toString();
 				if (variable.equals("Info")) {
@@ -84,7 +95,9 @@ public class ServerActivity extends Activity {
 							.findFragmentByTag("Info");
 					info.refresh();
 				} else if (variable.equals("Console")) {
-					getFragmentManager().findFragmentByTag("Console");
+					ConsoleFragment console = (ConsoleFragment) getFragmentManager()
+							.findFragmentByTag("Console");
+					console.refresh();
 				} else if (variable.equals("Mods")) {
 					ModsFragment mods = (ModsFragment) getFragmentManager()
 							.findFragmentByTag("Mods");
@@ -100,6 +113,11 @@ public class ServerActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Returns the active RestClient
+	 * 
+	 * @return
+	 */
 	public RestClient getRc() {
 		return this.rc;
 	}

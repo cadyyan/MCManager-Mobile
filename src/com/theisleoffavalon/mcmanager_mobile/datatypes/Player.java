@@ -15,12 +15,27 @@
 
 package com.theisleoffavalon.mcmanager_mobile.datatypes;
 
+/**
+ * Class that represents a Player.
+ * 
+ * @author eberta
+ * @modified 2/14/13
+ */
 public class Player {
 
+	/**
+	 * Name of the Player
+	 */
 	private String	name;
 
+	/**
+	 * IP Address of a player
+	 */
 	private String	ipAddress;
 
+	/**
+	 * Byte Array that contains the picture of the player.
+	 */
 	private Byte[]	picture;
 
 	public Player(String name, String ipAddress, Byte[] picture) {

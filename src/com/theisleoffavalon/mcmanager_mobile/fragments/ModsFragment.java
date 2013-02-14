@@ -27,17 +27,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.theisleoffavalon.mcmanager_mobile.MinecraftMod;
 import com.theisleoffavalon.mcmanager_mobile.R;
 import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
 import com.theisleoffavalon.mcmanager_mobile.adapters.ModAdapter;
 
+/**
+ * Class representing the Mod Fragment.
+ * 
+ * @author eberta
+ * @modified 2/14/13
+ */
 public class ModsFragment extends Fragment {
+	/**
+	 * List of minecraft mods loaded on server.
+	 */
 	public static List<MinecraftMod>	modList;
 
+	/**
+	 * Custom Adapter that displays the mod objects on screen.
+	 */
 	public static ModAdapter			ma;
 
+	/**
+	 * Handle for the AsyncGetModTask so the task can be called on.
+	 */
 	private AsyncGetModTask				aModTask;
 
 	@Override
@@ -75,6 +91,12 @@ public class ModsFragment extends Fragment {
 		return view;
 	}
 
+	@Override
+	public void onDestroy() {
+		this.aModTask.cancel(true);
+		super.onDestroy();
+	}
+
 	/**
 	 * This method is called by the ServerActivity to refresh the fragment's
 	 * info.
@@ -85,7 +107,7 @@ public class ModsFragment extends Fragment {
 	}
 
 	/**
-	 * This class is to retreive the info from the server and to display it on
+	 * This class is to retrieve the info from the server and to display it on
 	 * the fragment.
 	 * 
 	 * @author eberta
@@ -104,7 +126,9 @@ public class ModsFragment extends Fragment {
 
 				publishProgress(serverMods);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Toast.makeText(getActivity(),
+						"Connection error: " + e.getLocalizedMessage(),
+						Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
 			return null;

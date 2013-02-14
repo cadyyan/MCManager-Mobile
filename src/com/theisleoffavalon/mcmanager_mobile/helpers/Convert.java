@@ -15,8 +15,21 @@
 
 package com.theisleoffavalon.mcmanager_mobile.helpers;
 
+/**
+ * Class that converts the time and bytes into readable text.
+ * 
+ * @author eberta
+ * @modified 2/14/13
+ */
 public class Convert {
 
+	/**
+	 * Converts time from milliseconds to Hours:Mins:Secs
+	 * 
+	 * @param milliseconds
+	 *            Time in milliseconds
+	 * @return Returns a String containing the time in a readable format.
+	 */
 	public static String formatTime(Long milliseconds) {
 
 		int days = (int) Math.floor(milliseconds / (1000 * 60 * 60 * 24));
@@ -38,6 +51,15 @@ public class Convert {
 		return format;
 	}
 
+	/**
+	 * Method to pad a string with zeros
+	 * 
+	 * @param value
+	 *            Value to pad
+	 * @param zeroes
+	 *            Number of zeros or place holders.
+	 * @return Returns a string of readable text based on the padding.
+	 */
 	public static String pad(int value, int zeroes) {
 		if (zeroes == -1) {
 			zeroes = 2;
@@ -54,6 +76,13 @@ public class Convert {
 		return ret + value;
 	}
 
+	/**
+	 * Method to format bytes into human readable text.
+	 * 
+	 * @param bytes
+	 *            Bytes long to convert to string
+	 * @return Returns a string with the bytes now in readable format.
+	 */
 	public static String formatMemory(long bytes) {
 		double gigabytes = bytes / (1024.00 * 1024 * 1024);
 		if (gigabytes >= 1) {

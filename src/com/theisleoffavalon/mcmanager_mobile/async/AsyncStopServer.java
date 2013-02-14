@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
- package com.theisleoffavalon.mcmanager_mobile.async;
+package com.theisleoffavalon.mcmanager_mobile.async;
 
 import java.io.IOException;
 
@@ -22,6 +22,12 @@ import android.os.AsyncTask;
 
 import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
 
+/**
+ * Async Task that is called when the player wants to stop the server.
+ * 
+ * @author eberta
+ * @modified 2/14/13
+ */
 public class AsyncStopServer extends AsyncTask<Activity, Void, Void> {
 
 	@Override
