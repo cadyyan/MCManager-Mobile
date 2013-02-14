@@ -15,6 +15,7 @@
 
 package com.theisleoffavalon.mcmanager_mobile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import android.app.Activity;
@@ -89,28 +90,24 @@ public class MainConsole extends Activity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			publishProgress();
-			// try {
-			// // String hashed = MainConsole.this.rc
-			// // .hashPassword(((EditText)
-			// // findViewById(R.id.profile_selector_password))
-			// // .getText().toString());
-			// //
-			// // String token = MainConsole.this.rc
-			// // .login(((EditText)
-			// // findViewById(R.id.profile_selector_username))
-			// // .getText().toString(), hashed);
-			//
-			// // if (token != null) {
-			// publishProgress();
-			// // }
-			// } catch (AuthenticationException e) {
-			// // Toast.makeText(getBaseContext(), e.getLocalizedMessage(),
-			// // Toast.LENGTH_LONG).show();
-			// } catch (IOException e) {
-			// // Toast.makeText(getBaseContext(), e.getLocalizedMessage(),
-			// // Toast.LENGTH_LONG).show();
-			// }
+			try {
+
+				String token = MainConsole.this.rc
+						.login(((EditText) findViewById(R.id.profile_selector_username))
+								.getText().toString(),
+								((EditText) findViewById(R.id.profile_selector_password))
+										.getText().toString());
+
+				if (token != null) {
+					publishProgress();
+				}
+			} catch (AuthenticationException e) {
+				// Toast.makeText(getBaseContext(), e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+			} catch (IOException e) {
+				// Toast.makeText(getBaseContext(), e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+			}
 			return null;
 		}
 

@@ -187,7 +187,7 @@ public class RestClient {
 	 * @throws AuthenticationException
 	 *             If a problem occurs during hashing
 	 */
-	public String hashPassword(String password) throws AuthenticationException {
+	private String hashPassword(String password) throws AuthenticationException {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 			md.update(password.getBytes("UTF-8"));

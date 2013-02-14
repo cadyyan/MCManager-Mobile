@@ -284,7 +284,7 @@ public class InfoFragment extends Fragment {
 				Map<String, Object> args = new HashMap<String, Object>();
 				args.put("args", player[0]);
 				((ServerActivity) getActivity()).getRc().executeCommand(
-						list.get("Kick"), args);
+						list.get("kick"), args);
 			} catch (IOException e) {
 				Toast.makeText(getActivity(),
 						"Connection error: " + e.getLocalizedMessage(),
@@ -312,7 +312,7 @@ public class InfoFragment extends Fragment {
 				Map<String, Object> args = new HashMap<String, Object>();
 				args.put("args", player[0]);
 				((ServerActivity) getActivity()).getRc().executeCommand(
-						list.get("Ban"), args);
+						list.get("ban"), args);
 			} catch (IOException e) {
 				Toast.makeText(getActivity(),
 						"Connection error: " + e.getLocalizedMessage(),

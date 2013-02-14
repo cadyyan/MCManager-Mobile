@@ -86,15 +86,15 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 			view.setBackgroundColor(Color.parseColor("#976C4A"));
 		}
 
-		ban.setOnClickListener(new View.OnClickListener() {
+		kick.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				new AlertDialog.Builder(getContext())
 						.setIcon(android.R.drawable.ic_dialog_alert)
-						.setTitle(R.string.player_row_ban)
+						.setTitle(R.string.player_row_kick)
 						.setMessage(
-								"Do you really want to ban "
+								"Do you really want to kick "
 										+ PlayerAdapter.this.playerList.get(
 												position).getName() + "?")
 						.setPositiveButton(R.string.yes,
@@ -116,15 +116,15 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 			}
 		});
 
-		kick.setOnClickListener(new View.OnClickListener() {
+		ban.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				new AlertDialog.Builder(getContext())
 						.setIcon(android.R.drawable.ic_dialog_alert)
-						.setTitle(R.string.player_row_kick)
+						.setTitle(R.string.player_row_ban)
 						.setMessage(
-								"Do you really want to kick "
+								"Do you really want to ban "
 										+ PlayerAdapter.this.playerList.get(
 												position).getName() + "?")
 						.setPositiveButton(R.string.yes,
