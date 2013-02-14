@@ -140,7 +140,8 @@ public class InfoFragment extends Fragment {
 
 		ListView playerListView = (ListView) view
 				.findViewById(R.id.player_list);
-		servername.setText("Test Server");
+		servername.setText(getActivity().getIntent().getExtras()
+				.getString("serverName"));
 
 		// if (this.playerList == null) {
 		// this.playerList = new ArrayList<Player>();
