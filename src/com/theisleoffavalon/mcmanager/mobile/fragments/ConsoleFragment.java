@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.theisleoffavalon.mcmanager_mobile.fragments;
+package com.theisleoffavalon.mcmanager.mobile.fragments;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,10 +35,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand;
-import com.theisleoffavalon.mcmanager_mobile.R;
-import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
-import com.theisleoffavalon.mcmanager_mobile.adapters.ConsoleAdapter;
+import com.theisleoffavalon.mcmanager.mobile.MinecraftCommand;
+import com.theisleoffavalon.mcmanager.mobile.R;
+import com.theisleoffavalon.mcmanager.mobile.ServerActivity;
+import com.theisleoffavalon.mcmanager.mobile.adapters.ConsoleAdapter;
 
 /**
  * Class that represents the fragment that contains the output and input for the

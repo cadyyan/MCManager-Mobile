@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.theisleoffavalon.mcmanager_mobile.Listener;
+package com.theisleoffavalon.mcmanager.mobile.Listener;
 
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -21,10 +21,10 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
-import com.theisleoffavalon.mcmanager_mobile.R;
-import com.theisleoffavalon.mcmanager_mobile.fragments.ConsoleFragment;
-import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
-import com.theisleoffavalon.mcmanager_mobile.fragments.ModsFragment;
+import com.theisleoffavalon.mcmanager.mobile.R;
+import com.theisleoffavalon.mcmanager.mobile.fragments.ConsoleFragment;
+import com.theisleoffavalon.mcmanager.mobile.fragments.InfoFragment;
+import com.theisleoffavalon.mcmanager.mobile.fragments.ModsFragment;
 
 /**
  * Class to listen to tab changes.

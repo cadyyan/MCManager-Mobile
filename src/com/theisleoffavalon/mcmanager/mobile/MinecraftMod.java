@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.theisleoffavalon.mcmanager_mobile;
+package com.theisleoffavalon.mcmanager.mobile;
 
 /**
  * This class represents data about a mod on a server
