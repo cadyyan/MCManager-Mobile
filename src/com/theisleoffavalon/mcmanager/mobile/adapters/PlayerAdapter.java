@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.theisleoffavalon.mcmanager_mobile.adapters;
+package com.theisleoffavalon.mcmanager.mobile.adapters;
 
 import java.util.List;
 
@@ -29,10 +29,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.theisleoffavalon.mcmanager_mobile.R;
-import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
-import com.theisleoffavalon.mcmanager_mobile.datatypes.Player;
-import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
+import com.theisleoffavalon.mcmanager.mobile.R;
+import com.theisleoffavalon.mcmanager.mobile.ServerActivity;
+import com.theisleoffavalon.mcmanager.mobile.datatypes.Player;
+import com.theisleoffavalon.mcmanager.mobile.fragments.InfoFragment;
 
 /**
  * Custom Adapter to help display the Player objects that represent players.

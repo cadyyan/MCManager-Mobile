@@ -1,4 +1,4 @@
-package com.theisleoffavalon.mcmanager_mobile.adapters;
+package com.theisleoffavalon.mcmanager.mobile.adapters;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.theisleoffavalon.mcmanager_mobile.R;
+import com.theisleoffavalon.mcmanager.mobile.R;
 
 /**
  * Custom Adapter for the console so it alternates background colors.

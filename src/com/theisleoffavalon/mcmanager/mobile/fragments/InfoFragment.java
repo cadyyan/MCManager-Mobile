@@ -13,7 +13,7 @@
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
-package com.theisleoffavalon.mcmanager_mobile.fragments;
+package com.theisleoffavalon.mcmanager.mobile.fragments;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,14 +36,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.theisleoffavalon.mcmanager_mobile.MainConsole;
-import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand;
-import com.theisleoffavalon.mcmanager_mobile.R;
-import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
-import com.theisleoffavalon.mcmanager_mobile.adapters.PlayerAdapter;
-import com.theisleoffavalon.mcmanager_mobile.async.AsyncStopServer;
-import com.theisleoffavalon.mcmanager_mobile.datatypes.Player;
-import com.theisleoffavalon.mcmanager_mobile.helpers.Convert;
+import com.theisleoffavalon.mcmanager.mobile.MainConsole;
+import com.theisleoffavalon.mcmanager.mobile.MinecraftCommand;
+import com.theisleoffavalon.mcmanager.mobile.R;
+import com.theisleoffavalon.mcmanager.mobile.ServerActivity;
+import com.theisleoffavalon.mcmanager.mobile.adapters.PlayerAdapter;
+import com.theisleoffavalon.mcmanager.mobile.async.AsyncStopServer;
+import com.theisleoffavalon.mcmanager.mobile.datatypes.Player;
+import com.theisleoffavalon.mcmanager.mobile.helpers.Convert;
 
 /**
  * Class representing the Info Fragment.
