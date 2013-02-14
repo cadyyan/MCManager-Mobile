@@ -15,15 +15,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.theisleoffavalon.mcmanager_mobile.R;
+import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
 import com.theisleoffavalon.mcmanager_mobile.datatypes.Player;
+import com.theisleoffavalon.mcmanager_mobile.fragments.InfoFragment;
 
 public class PlayerAdapter extends ArrayAdapter<Player> {
+
+	private Context			context;
 
 	private List<Player>	playerList;
 
 	public PlayerAdapter(Context context, List<Player> playerList) {
 		super(context, R.layout.fragment_info_player_row, playerList);
 		this.playerList = playerList;
+		this.context = context;
 	}
 
 	@Override
@@ -71,7 +76,12 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 									@Override
 									public void onClick(DialogInterface dialog,
 											int which) {
-
+										ServerActivity sa = ((ServerActivity) PlayerAdapter.this.context);
+										((InfoFragment) sa.getFragmentManager()
+												.findFragmentByTag("Info"))
+												.kickPlayer(PlayerAdapter.this.playerList
+														.get(position)
+														.getName());
 									}
 
 								}).setNegativeButton(R.string.no, null).show();
@@ -96,7 +106,12 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 									@Override
 									public void onClick(DialogInterface dialog,
 											int which) {
-
+										ServerActivity sa = ((ServerActivity) PlayerAdapter.this.context);
+										((InfoFragment) sa.getFragmentManager()
+												.findFragmentByTag("Info"))
+												.banPlayer(PlayerAdapter.this.playerList
+														.get(position)
+														.getName());
 									}
 
 								}).setNegativeButton(R.string.no, null).show();

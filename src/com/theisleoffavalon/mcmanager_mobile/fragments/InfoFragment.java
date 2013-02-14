@@ -17,6 +17,7 @@ package com.theisleoffavalon.mcmanager_mobile.fragments;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -146,6 +147,14 @@ public class InfoFragment extends Fragment {
 		new AsyncGetInfoTask().execute();
 	}
 
+	public void kickPlayer(String name) {
+		new AsyncKickPlayer().execute(name);
+	}
+
+	public void banPlayer(String name) {
+		new AsyncBanPlayer().execute(name);
+	}
+
 	public class AsyncGetInfoTask extends
 			AsyncTask<Void, Map<String, Object>, Void> {
 
@@ -197,17 +206,32 @@ public class InfoFragment extends Fragment {
 		@Override
 		protected Void doInBackground(String... player) {
 			try {
-				List<MinecraftCommand> list = ((ServerActivity) getActivity())
+				Map<String, MinecraftCommand> list = ((ServerActivity) getActivity())
 						.getRc().getAllMinecraftCommands();
-				MinecraftCommand command;
-				for (int i = 0; i < list.size(); i++) {
-					if (list.get(i).getName().equals("Kick")) {
-						command = list.get(i);
-						break;
-					}
-				}
+				Map<String, Object> args = new HashMap<String, Object>();
+				args.put("args", player[0]);
 				((ServerActivity) getActivity()).getRc().executeCommand(
-						command, player[0]);
+						list.get("Kick"), args);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+	}
+
+	public class AsyncBanPlayer extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... player) {
+			try {
+				Map<String, MinecraftCommand> list = ((ServerActivity) getActivity())
+						.getRc().getAllMinecraftCommands();
+				Map<String, Object> args = new HashMap<String, Object>();
+				args.put("args", player[0]);
+				((ServerActivity) getActivity()).getRc().executeCommand(
+						list.get("Ban"), args);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
