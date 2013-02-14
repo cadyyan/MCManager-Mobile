@@ -178,6 +178,15 @@ public class RestClient {
 		}
 	}
 
+	/**
+	 * Does a SHA-256 hash of the password
+	 * 
+	 * @param password
+	 *            The password to hash
+	 * @return The hashed password
+	 * @throws AuthenticationException
+	 *             If a problem occurs during hashing
+	 */
 	public String hashPassword(String password) throws AuthenticationException {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
