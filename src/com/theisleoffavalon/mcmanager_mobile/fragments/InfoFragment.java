@@ -35,7 +35,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.theisleoffavalon.mcmanager_mobile.MainConsole;
 import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand;
@@ -234,10 +233,10 @@ public class InfoFragment extends Fragment {
 
 				publishProgress(serverInfo);
 			} catch (IOException e) {
-				Toast.makeText(getActivity(),
-						"Connection error: " + e.getLocalizedMessage(),
-						Toast.LENGTH_LONG).show();
-				e.printStackTrace();
+				// Toast.makeText(getActivity(),
+				// "Connection error: " + e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+				Log.e("AsyncGetInfoTask", "IOException", e);
 			}
 			return null;
 		}
@@ -286,10 +285,10 @@ public class InfoFragment extends Fragment {
 				((ServerActivity) getActivity()).getRc().executeCommand(
 						list.get("kick"), args);
 			} catch (IOException e) {
-				Toast.makeText(getActivity(),
-						"Connection error: " + e.getLocalizedMessage(),
-						Toast.LENGTH_LONG).show();
-				e.printStackTrace();
+				// Toast.makeText(getActivity(),
+				// "Connection error: " + e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+				Log.e("AsyncKickPlayer", "IOException", e);
 			}
 			return null;
 		}
@@ -314,10 +313,10 @@ public class InfoFragment extends Fragment {
 				((ServerActivity) getActivity()).getRc().executeCommand(
 						list.get("ban"), args);
 			} catch (IOException e) {
-				Toast.makeText(getActivity(),
-						"Connection error: " + e.getLocalizedMessage(),
-						Toast.LENGTH_LONG).show();
-				e.printStackTrace();
+				// Toast.makeText(getActivity(),
+				// "Connection error: " + e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+				Log.e("AsyncBanPlayer", "IOException", e);
 			}
 			return null;
 		}

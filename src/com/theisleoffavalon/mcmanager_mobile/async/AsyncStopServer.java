@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.theisleoffavalon.mcmanager_mobile.ServerActivity;
 
@@ -35,8 +36,7 @@ public class AsyncStopServer extends AsyncTask<Activity, Void, Void> {
 		try {
 			((ServerActivity) activity[0]).getRc().stopServer();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e("AsyncStopServer", "IOException", e);
 		}
 		return null;
 	}

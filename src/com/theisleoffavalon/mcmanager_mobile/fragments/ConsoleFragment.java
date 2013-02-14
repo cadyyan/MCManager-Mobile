@@ -25,6 +25,7 @@ import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.theisleoffavalon.mcmanager_mobile.MinecraftCommand;
 import com.theisleoffavalon.mcmanager_mobile.R;
@@ -201,10 +201,10 @@ public class ConsoleFragment extends Fragment {
 
 				publishProgress(commands);
 			} catch (IOException e) {
-				Toast.makeText(getActivity(),
-						"Connection error: " + e.getLocalizedMessage(),
-						Toast.LENGTH_LONG).show();
-				e.printStackTrace();
+				// Toast.makeText(getActivity(),
+				// "Connection error: " + e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+				Log.e("AsyncGetConsoleCommandsTask", "IOException", e);
 			}
 			return null;
 		}
@@ -242,10 +242,10 @@ public class ConsoleFragment extends Fragment {
 
 				publishProgress();
 			} catch (IOException e) {
-				Toast.makeText(getActivity(),
-						"Connection error: " + e.getLocalizedMessage(),
-						Toast.LENGTH_LONG).show();
-				e.printStackTrace();
+				// Toast.makeText(getActivity(),
+				// "Connection error: " + e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+				Log.e("AsyncExecuteCommandTask", "IOException", e);
 			}
 			return null;
 		}
@@ -275,10 +275,10 @@ public class ConsoleFragment extends Fragment {
 				publishProgress();
 
 			} catch (IOException e) {
-				Toast.makeText(getActivity(),
-						"Connection error: " + e.getLocalizedMessage(),
-						Toast.LENGTH_LONG).show();
-				e.printStackTrace();
+				// Toast.makeText(getActivity(),
+				// "Connection error: " + e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+				Log.e("AsyncGetConsoleOutputTask", "IOException", e);
 			}
 			return null;
 		}

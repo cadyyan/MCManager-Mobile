@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.theisleoffavalon.mcmanager_mobile.MinecraftMod;
 import com.theisleoffavalon.mcmanager_mobile.R;
@@ -126,10 +125,10 @@ public class ModsFragment extends Fragment {
 
 				publishProgress(serverMods);
 			} catch (IOException e) {
-				Toast.makeText(getActivity(),
-						"Connection error: " + e.getLocalizedMessage(),
-						Toast.LENGTH_LONG).show();
-				e.printStackTrace();
+				// Toast.makeText(getActivity(),
+				// "Connection error: " + e.getLocalizedMessage(),
+				// Toast.LENGTH_LONG).show();
+				Log.e("AsyncGetModTask", "IOException", e);
 			}
 			return null;
 		}
