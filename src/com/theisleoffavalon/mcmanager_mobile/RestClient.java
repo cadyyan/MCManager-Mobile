@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,12 +66,12 @@ public class RestClient {
 	/**
 	 * The root URL of the API
 	 */
-	private URL					rootUrl;
+	private URL rootUrl;
 
 	/**
 	 * JSONRPC version string
 	 */
-	private static final String	JSON_RPC_VERSION	= "2.0";
+	private static final String JSON_RPC_VERSION = "2.0";
 
 	/**
 	 * Creates a rest client for the given parameters
@@ -175,6 +176,54 @@ public class RestClient {
 			Log.e("RestClient", "Response ID doesn't match!");
 			throw new IOException("Got the wrong id on response");
 		}
+	}
+
+	public String hashPassword(String password) throws AuthenticationException {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(password.getBytes("UTF-8"));
+			byte[] digest = md.digest();
+			StringBuilder sb = new StringBuilder();
+			for (byte b : digest) {
+				sb.append(String.format("%02x", b));
+			}
+			return sb.toString();
+		} catch (Exception e) {
+			Log.e("RestClient", "Failed to encode password", e);
+			throw new AuthenticationException("Password Encode failure");
+		}
+	}
+
+	/**
+	 * Authenticates the user with the server and gives an authentication token
+	 * 
+	 * @param user
+	 *            The user name to login with
+	 * @param password
+	 *            The password to use
+	 * @return An authentication token if successful, null otherwise
+	 * @throws IOException
+	 *             If a connection problem occurs
+	 * @throws AuthenticationException
+	 *             If a problem authenticating occurs
+	 */
+	@SuppressWarnings("unchecked")
+	public String login(String user, String password) throws IOException,
+			AuthenticationException {
+		String hashedPassword = hashPassword(password);
+
+		Map<String, String> params = new JSONObject();
+		params.put("user", user);
+		params.put("password", hashedPassword);
+
+		JSONObject request = createJSONRPCObject("login");
+		request.put("params", params);
+		JSONObject response = sendJSONRPC(request);
+		checkJSONResponse(response, request);
+
+		String auth = (String) response.get("result");
+
+		return auth;
 	}
 
 	/**
