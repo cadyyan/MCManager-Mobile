@@ -55,7 +55,7 @@ public class MainConsole extends Activity {
 			public void onClick(View v) {
 				try {
 					MainConsole.this.rc = new RestClient("http", server
-							.getText().toString(), 1716, "/rpc");
+							.getText().toString(), 2013, "/rpc");
 					new AsyncLoginTask().execute();
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block

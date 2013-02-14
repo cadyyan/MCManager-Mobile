@@ -52,7 +52,7 @@ public class ServerActivity extends Activity {
 		setContentView(R.layout.activity_control_panel);
 		try {
 			this.rc = new RestClient("http", getIntent().getStringExtra(
-					"address"), 1716, "/rpc");
+					"address"), 2013, "/rpc");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
